@@ -23,7 +23,8 @@ export default function Notion() {
   // );
   // cache = null;
   // document.write(str.split("\n").join("<br />"));
-  document.write(["[parent]", ...Object.keys(window.parent)].join("<br />"));
+  // document.write(["[parent]", ...Object.keys(window.parent)].join("<br />"));
+  document.write(["[parent props]", typeof window.parent[0]].join("<br />"));
   document.close();
   return null;
   // return (
