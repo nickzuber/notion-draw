@@ -23,7 +23,7 @@ export default function Notion() {
   // );
   // cache = null;
   // document.write(str.split("\n").join("<br />"));
-  document.write(window.blur as unknown as string);
+  document.write(Object.keys(window).join("<br />"));
   document.close();
   return null;
   // return (
