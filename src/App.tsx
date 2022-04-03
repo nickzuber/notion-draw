@@ -6,23 +6,24 @@ export default function Notion() {
   // console.info("[notion-draw]", window);
   // console.info("[notion-draw]", window.parent);
   document.open();
-  let cache: any = [];
-  const str = JSON.stringify(
-    window,
-    (key, value) => {
-      if (typeof value === "object" && value !== null) {
-        // Duplicate reference found, discard key
-        if (cache.includes(value)) return;
+  // let cache: any = [];
+  // const str = JSON.stringify(
+  //   window,
+  //   (key, value) => {
+  //     if (typeof value === "object" && value !== null) {
+  //       // Duplicate reference found, discard key
+  //       if (cache.includes(value)) return;
 
-        // Store value in our collection
-        cache.push(value);
-      }
-      return value;
-    },
-    2,
-  );
-  cache = null;
-  document.write(str.split("\n").join("<br />"));
+  //       // Store value in our collection
+  //       cache.push(value);
+  //     }
+  //     return value;
+  //   },
+  //   2,
+  // );
+  // cache = null;
+  // document.write(str.split("\n").join("<br />"));
+  document.write(window.blur as unknown as string);
   document.close();
   return null;
   // return (
