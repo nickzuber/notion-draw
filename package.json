@@ -1,6 +1,6 @@
 {
-  "name": "floorplan-tracer",
-  "version": "0.1.0",
+  "name": "notion-draw",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@emotion/styled": "^11.3.0",
