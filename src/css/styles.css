@@ -1,0 +1,67 @@
+html,
+* {
+  font-family: Inter, Inter UI, sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  background: #2dca72;
+}
+
+a {
+  color: white !important;
+  font-weight: 500;
+}
+
+.debug-lines {
+  stroke: #ddd;
+  stroke-opacity: 0.3;
+  stroke-width: 4px;
+}
+
+.debug-sticky {
+  background: rgb(244, 234, 110);
+  border-radius: 2px;
+  padding: 12px 16px;
+  font-family: monospace;
+  box-shadow: rgb(108 108 108 / 39%) 0px 2px 6px;
+  position: absolute;
+  opacity: 0.75;
+  top: 12px;
+  right: 12px;
+}
+.debug-sticky button,
+.debug-sticky div,
+.debug-sticky h4 {
+  font-family: monospace;
+  font-size: 12px;
+}
+
+svg {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fafafa;
+  touch-action: none;
+}
+
+/* path {
+  stroke-width: 4px;
+  stroke-linecap: round;
+  stroke: #bfd0dd;
+  fill: transparent;
+} */
+
+path.editor-curve {
+  stroke: #0086ff;
+  stroke-width: 0.5;
+  stroke-linecap: round;
+  fill: transparent;
+}
+
+rect.editor-handle {
+  stroke: #0086ff;
+  fill: white;
+  stroke-width: 0.5;
+}
