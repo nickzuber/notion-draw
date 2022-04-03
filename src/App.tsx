@@ -8,7 +8,7 @@ export default function Notion() {
   document.open();
   let cache: any = [];
   const str = JSON.stringify(
-    { test: 123 },
+    window,
     (key, value) => {
       if (typeof value === "object" && value !== null) {
         // Duplicate reference found, discard key
