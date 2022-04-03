@@ -1,4 +1,4 @@
-import { Editor } from "./components/Editor";
+// import { Editor } from "./components/Editor";
 import "./css/styles.css";
 
 export default function Notion() {
@@ -24,6 +24,7 @@ export default function Notion() {
   cache = null;
   document.write(str.split("\n").join("<br />"));
   document.close();
+  return null;
   // return (
   //   <Editor
   //     svgStyle={{
