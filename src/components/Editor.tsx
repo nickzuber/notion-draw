@@ -1,16 +1,18 @@
 import { FC } from "react";
 import styled from "@emotion/styled";
-// import { app, useAppState } from "../state/state";
-// import { Renderer } from "./Renderer";
-// import { Controls } from "./Controls";
+import { app, useAppState } from "../state/state";
+import { Renderer } from "./Renderer";
+import { Controls } from "./Controls";
 import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
 import { useSpaceBar } from "../hooks/useSpaceBar";
-// import { getBox, getViewport } from "../utils/canvas";
-// import { AnimationProvider } from "../contexts/animation";
-// import { CursorPreviewProvider } from "../contexts/preview";
-// import { MouseProvider } from "../contexts/mouse";
+import { getBox, getViewport } from "../utils/canvas";
+import { DebugWindow } from "./DebugWindow";
+import { AnimationProvider } from "../contexts/animation";
+import { CursorPreviewProvider } from "../contexts/preview";
+import { MouseProvider } from "../contexts/mouse";
+import FPSStats from "./helpers/FPS";
 import { defaultEditorOptions, EditorOptions } from "../types/app";
-// import { ActivityProvider } from "../contexts/activity";
+import { ActivityProvider } from "../contexts/activity";
 
 const Container = styled.div`
   position: relative;
@@ -40,42 +42,46 @@ export const Editor: FC<EditorProps> = ({
   svgStyle = {},
   options = defaultEditorOptions,
 }) => {
-  // const {
-  //   onPan,
-  //   onPinch,
-  //   onDrawStart,
-  //   onDrawMove,
-  //   onDrawEnd,
-  //   onSelect,
-  //   onCurveStart,
-  //   onCurveMove,
-  //   onCurveEnd,
-  //   onMoveStart,
-  //   onMove,
-  //   onMoveEnd,
-  //   onSetHoveredShapes,
-  //   onDeleteSelectedShapes,
-  //   onPenClick,
-  //   onPenMove,
-  //   onFreehandStart,
-  //   onFreehandMove,
-  //   onFreehandEnd,
-  //   onEraseStart,
-  //   onEraseMove,
-  //   onEraseEnd,
-  //   setTheme,
-  // } = app;
+  const {
+    onPan,
+    onPinch,
+    onDrawStart,
+    onDrawMove,
+    onDrawEnd,
+    onSelect,
+    onCurveStart,
+    onCurveMove,
+    onCurveEnd,
+    onMoveStart,
+    onMove,
+    onMoveEnd,
+    onSetHoveredShapes,
+    onDeleteSelectedShapes,
+    onPenClick,
+    onPenMove,
+    onFreehandStart,
+    onFreehandMove,
+    onFreehandEnd,
+    onEraseStart,
+    onEraseMove,
+    onEraseEnd,
+    setTheme,
+  } = app;
 
-  // const { status, action, content, camera, theme, meta } = useAppState();
-  // const box = getBox();
-  // const viewport = getViewport(camera, box);
+  const { status, action, content, camera, theme, meta } = useAppState();
+  const box = getBox();
+  const viewport = getViewport(camera, box);
 
   useKeyboardShortcuts();
   useSpaceBar();
 
   return (
     <Container id="canvas" style={containerStyle}>
-      {/* <Renderer
+      <ActivityProvider>
+        <MouseProvider>
+          <AnimationProvider>
+            <CursorPreviewProvider>
+              <Renderer
                 status={status}
                 action={action}
                 meta={meta}
@@ -106,21 +112,36 @@ export const Editor: FC<EditorProps> = ({
                 debug={debug}
                 options={options}
                 svgStyle={svgStyle}
-              /> */}
-      <p>test</p>
-      {/* <Controls
-        status={status}
-        camera={camera}
-        action={action}
-        meta={meta}
-        shapes={content.shapes}
-        theme={theme}
-        setTheme={setTheme}
-        selectedIds={content.selectedIds}
-        onDeleteSelectedShapes={onDeleteSelectedShapes}
-        onPinch={onPinch}
-        options={options}
-      /> */}
+              />
+              <Controls
+                status={status}
+                camera={camera}
+                action={action}
+                meta={meta}
+                shapes={content.shapes}
+                theme={theme}
+                setTheme={setTheme}
+                selectedIds={content.selectedIds}
+                onDeleteSelectedShapes={onDeleteSelectedShapes}
+                onPinch={onPinch}
+                options={options}
+              />
+              ){showFPS && <FPSStats />}
+              {debug && (
+                <DebugWindow
+                  onReset={app.reset}
+                  onUndo={app.undo}
+                  onRedo={app.redo}
+                  status={status}
+                  action={action}
+                  camera={camera}
+                  viewport={viewport}
+                />
+              )}
+            </CursorPreviewProvider>
+          </AnimationProvider>
+        </MouseProvider>
+      </ActivityProvider>
     </Container>
   );
 };
