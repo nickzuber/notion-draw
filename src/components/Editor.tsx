@@ -68,7 +68,7 @@ export const Editor: FC<EditorProps> = ({
     setTheme,
   } = app;
 
-  const { status, action, content, camera, theme } = useAppState();
+  const { status, action, content, camera, theme, meta } = useAppState();
   const box = getBox();
   const viewport = getViewport(camera, box);
 
@@ -84,6 +84,7 @@ export const Editor: FC<EditorProps> = ({
               <Renderer
                 status={status}
                 action={action}
+                meta={meta}
                 camera={camera}
                 theme={theme}
                 onDrawStart={onDrawStart}
@@ -117,6 +118,7 @@ export const Editor: FC<EditorProps> = ({
                 status={status}
                 camera={camera}
                 action={action}
+                meta={meta}
                 shapes={content.shapes}
                 theme={theme}
                 setTheme={setTheme}

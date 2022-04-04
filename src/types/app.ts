@@ -54,12 +54,17 @@ export type Theme = {
   eraserSize: number;
 };
 
+export type Meta = {
+  disablePanning: boolean;
+};
+
 export type App = {
   status: Status;
   action: Action;
   camera: Camera;
   content: Content;
   theme: Theme;
+  meta: Meta;
 };
 
 export type StateSelector<T, U> = (state: T) => U;

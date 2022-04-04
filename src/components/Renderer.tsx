@@ -28,7 +28,7 @@ import {
   EraseMove,
   EraseEnd,
 } from "../state/state";
-import { Action, Content, EditorOptions, Status, Theme } from "../types/app";
+import { Action, Content, EditorOptions, Meta, Status, Theme } from "../types/app";
 import { Camera } from "../types/canvas";
 import { Bounds } from "../utils/canvas";
 import { drawShapesInDebugMode } from "../utils/debug";
@@ -48,6 +48,7 @@ import { ForeignObject } from "./helpers/Svg";
 type RendererProps = {
   action: Action;
   status: Status;
+  meta: Meta;
   camera: Camera;
   content: Content;
   theme: Theme;
@@ -80,6 +81,7 @@ type RendererProps = {
 export const Renderer: FC<RendererProps> = ({
   camera,
   action,
+  meta,
   status,
   content,
   onPan,
@@ -101,8 +103,8 @@ export const Renderer: FC<RendererProps> = ({
   const selectedShapes = shapes.filter(({ id }) => selectedIds.includes(id));
 
   // Panning
-  useWheelEffect(svgRef, onPinch, onPan, options.disablePanning);
-  useMousePanEffect(svgRef, status, onPan, options.disablePanning);
+  useWheelEffect(svgRef, onPinch, onPan, options.disablePanning || meta.disablePanning);
+  useMousePanEffect(svgRef, status, onPan, options.disablePanning || meta.disablePanning);
 
   // Cursor
   useCursorStyles(svgRef, status);

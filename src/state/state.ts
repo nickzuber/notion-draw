@@ -1,6 +1,6 @@
 import { StateManager } from "rko";
 import { Palette } from "../constants/color";
-import { Action, App, Content, StateSelector, Status, Theme } from "../types/app";
+import { Action, App, Content, Meta, StateSelector, Status, Theme } from "../types/app";
 import { Camera, Point, PressuredPoint, Zoom } from "../types/canvas";
 import { Line, Freeform, Shape, ShapeId, ShapeType } from "../types/shape";
 import { panCamera, updateCamera, zoomCameraTo } from "../utils/camera";
@@ -42,12 +42,17 @@ const initialTheme: Theme = {
   eraserSize: 8,
 };
 
+const initialMeta: Meta = {
+  disablePanning: false,
+};
+
 export const initialAppState: App = {
   status: Status.FREEHAND,
   action: Action.IDLE,
   camera: initialCamera,
   content: initialContent,
   theme: initialTheme,
+  meta: initialMeta,
 };
 
 export type SetStatus = (status: Status) => void;
@@ -93,6 +98,7 @@ export type EraseStart = (point: PressuredPoint) => void;
 export type EraseMove = (point: PressuredPoint) => void;
 export type EraseEnd = () => void;
 export type SetTheme = (theme: Partial<Theme>) => void;
+export type SetMeta = (meta: Partial<Meta>) => void;
 
 export class AppState extends StateManager<App> {
   setStatus: SetStatus = (status) => {
@@ -120,6 +126,17 @@ export class AppState extends StateManager<App> {
       },
       after: {
         theme,
+      },
+    });
+  };
+
+  setMeta: SetMeta = (meta) => {
+    this.setState({
+      before: {
+        meta: this.state.meta,
+      },
+      after: {
+        meta,
       },
     });
   };

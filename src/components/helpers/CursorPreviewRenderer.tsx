@@ -33,7 +33,7 @@ export const CursorPreviewRenderer: FC<CursorPreviewProps> = ({ status, scale })
           interactive={false}
           cx={position.x}
           cy={position.y}
-          r={theme.penSize - 1.5}
+          r={theme.penSize}
           strokeWidth={theme.penSize / 3}
           stroke={theme.penColor}
           fill={Color.PenPreview.Secondary}
@@ -45,10 +45,10 @@ export const CursorPreviewRenderer: FC<CursorPreviewProps> = ({ status, scale })
           interactive={false}
           cx={position.x}
           cy={position.y}
-          r={theme.eraserSize / scale}
-          strokeWidth={theme.eraserSize / 3 / scale}
-          stroke={Color.Palette.Black}
-          fill={Color.PenPreview.Secondary}
+          r={theme.eraserSize}
+          strokeWidth={theme.eraserSize / 4}
+          stroke="#495057"
+          fill={`${Color.PenPreview.Secondary}88`}
         />
       );
     default:
