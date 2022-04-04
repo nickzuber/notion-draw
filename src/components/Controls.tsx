@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useRef, useState } from "react";
+import { FC, useContext } from "react";
 import styled from "@emotion/styled";
 import { Action, EditorOptions, Status, Theme } from "../types/app";
 import { ReactComponent as PencilSvg } from "../icons/pencil.svg";
@@ -25,35 +25,12 @@ type ControlsProps = {
 
 export const Controls: FC<ControlsProps> = ({ status, action, theme, setTheme }) => {
   const { setStatus } = app;
-  const containerRef = useRef<HTMLDivElement>(null);
   const active = useContext(ActivityContext);
-  const [hoveringOverControls, setHoveringOverControls] = useState(false);
 
   const isDrawing = action === Action.DRAWING_FREEHAND;
-  const shouldHideMenu = isDrawing && hoveringOverControls;
-
-  useEffect(() => {
-    function onEnter() {
-      setHoveringOverControls(true);
-    }
-    function onExit() {
-      setHoveringOverControls(false);
-    }
-
-    const containerElement = containerRef.current;
-    if (!containerElement) return;
-
-    containerElement.addEventListener("mouseenter", onEnter);
-    containerElement.addEventListener("mouseleave", onExit);
-
-    return () => {
-      containerElement.removeEventListener("mouseenter", onEnter);
-      containerElement.removeEventListener("mouseleave", onExit);
-    };
-  }, [containerRef]);
 
   return (
-    <Container ref={containerRef} hide={!active || shouldHideMenu}>
+    <Container hide={!active || isDrawing}>
       <RightContainer>
         <SidePanel>
           {Object.values(Palette).map((color) => (
@@ -87,7 +64,7 @@ export const Controls: FC<ControlsProps> = ({ status, action, theme, setTheme })
 };
 
 const Container = styled.div<{ hide: boolean }>`
-  transition: all 100ms ease;
+  transition: all 250ms ease;
   opacity: ${(props) => (props.hide ? 0 : 1)};
 `;
 

@@ -11,7 +11,7 @@ export default function Notion() {
         hideBackgroundPattern: true,
         hideControls: true,
         hideHeader: true,
-        disablePanning: true,
+        disablePanning: false,
         embedMode: true,
       }}
       containerStyle={{

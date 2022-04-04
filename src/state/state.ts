@@ -23,11 +23,10 @@ import {
   roundPoint,
 } from "../utils/shape";
 import { endEditing, beginEditing } from "../utils/state";
-// import { Mocks } from "./state.mocks";
 
 const initialCamera: Camera = {
-  x: 0,
-  y: 0,
+  x: -1150,
+  y: -650,
   z: 1,
 };
 
@@ -166,6 +165,7 @@ export class AppState extends StateManager<App> {
 
   onEraseStart: EraseStart = (point) => {
     this.setSnapshot();
+    this.onEraseMove(point);
   };
   onEraseMove: EraseMove = (point) => {
     const pointOnCanvas = screenToCanvasPressured(point, this.state.camera);
@@ -813,7 +813,7 @@ export class AppState extends StateManager<App> {
   };
 }
 
-export const app = new AppState(initialAppState, "spectre", 3);
+export const app = new AppState(initialAppState, "spectre", 4);
 
 export const useAppState = (selector?: StateSelector<App, any>) => {
   if (selector) {

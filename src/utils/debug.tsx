@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Color } from "../constants/color";
-import { Line, Shape, ShapeType } from "../types/shape";
+import { Freeform, Line, Shape, ShapeType } from "../types/shape";
 import { notEmpty } from "./general";
 import { getPointsFromLine } from "./shape";
 
@@ -10,13 +10,17 @@ function renderLineShape(line: Line, z: number) {
   return (
     <Fragment>
       {points.map((p, i) => (
-        <circle
-          key={i}
-          cx={p.x}
-          cy={p.y}
-          r={4 / z}
-          fill={Color.Debug.Primary}
-        />
+        <circle key={i} cx={p.x} cy={p.y} r={4 / z} fill={Color.Debug.Primary} />
+      ))}
+    </Fragment>
+  );
+}
+
+function renderFreeformShape(path: Freeform, z: number) {
+  return (
+    <Fragment>
+      {path.points.map((p, i) => (
+        <circle key={i} cx={p.x} cy={p.y} r={4 / z} fill={Color.Debug.Primary} />
       ))}
     </Fragment>
   );
@@ -26,6 +30,8 @@ function renderShape(shape: Shape, z: number) {
   switch (shape.type) {
     case ShapeType.LINE:
       return renderLineShape(shape as Line, z);
+    case ShapeType.FREEFORM:
+      return renderFreeformShape(shape as Freeform, z);
     default:
       return null;
   }
