@@ -1,6 +1,7 @@
 import { FC, useContext } from "react";
 import styled from "@emotion/styled";
 import { Action, EditorOptions, Status, Theme } from "../types/app";
+import { ReactComponent as TrashSvg } from "../icons/trash.svg";
 import { ReactComponent as PencilSvg } from "../icons/pencil.svg";
 import { ReactComponent as EraserSvg } from "../icons/eraser.svg";
 import { ReactComponent as SquiggleSvg } from "../icons/squiggle.svg";
@@ -24,7 +25,7 @@ type ControlsProps = {
 };
 
 export const Controls: FC<ControlsProps> = ({ status, action, theme, setTheme }) => {
-  const { setStatus } = app;
+  const { setStatus, onDeleteAllShapes } = app;
   const active = useContext(ActivityContext);
 
   const isDrawing = action === Action.DRAWING_FREEHAND;
@@ -58,6 +59,10 @@ export const Controls: FC<ControlsProps> = ({ status, action, theme, setTheme })
             onClick={() => setStatus(Status.ERASE)}
           />
         </SidePanel>
+
+        <SidePanel style={{ width: 45 }}>
+          <DeleteOption onClick={() => onDeleteAllShapes()} />
+        </SidePanel>
       </LeftContainer>
     </Container>
   );
@@ -75,11 +80,12 @@ const LeftContainer = styled.div`
   width: 80px;
   top: 12px;
   left: 12px;
-  bottom: 0;
+  bottom: 12px;
 
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: flex-start;
-  justify-content: center;
   pointer-events: none;
   user-select: none;
 `;
@@ -88,7 +94,7 @@ const RightContainer = styled.div`
   position: absolute;
   background: transparent;
   min-height: 100px;
-  width: 80px;
+  width: 145px;
   top: 12px;
   right: 12px;
   bottom: 0;
@@ -157,6 +163,31 @@ const ErasingOption = styled(EraserSvg)<{ selected: boolean }>`
 
   &:hover {
     background: ${(props) => (props.selected ? "#ddd" : "#eee")};
+  }
+
+  &:active {
+    background: #ccc;
+  }
+
+  path {
+    stroke-width: 2px;
+  }
+`;
+
+const DeleteOption = styled(TrashSvg)`
+  position: relative;
+  display: inline-block;
+  margin: 2px;
+  padding: 6px;
+  height: 30px;
+  width: 30px;
+  border-radius: 100%;
+  background: transparent;
+  cursor: pointer;
+  transition: all 100ms ease;
+
+  &:hover {
+    background: #eee;
   }
 
   &:active {

@@ -33,8 +33,8 @@ export const CursorPreviewRenderer: FC<CursorPreviewProps> = ({ status, scale })
           interactive={false}
           cx={position.x}
           cy={position.y}
-          r={theme.penSize / scale}
-          strokeWidth={theme.penSize / 3 / scale}
+          r={theme.penSize - 1.5}
+          strokeWidth={theme.penSize / 3}
           stroke={theme.penColor}
           fill={Color.PenPreview.Secondary}
         />

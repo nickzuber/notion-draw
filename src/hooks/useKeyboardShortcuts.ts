@@ -16,15 +16,19 @@ export const useKeyboardShortcuts = () => {
   });
 
   useHotkeys("escape", () => {
-    app.setStatus(Status.IDLE);
+    app.setStatus(Status.FREEHAND);
   });
 
   useHotkeys("d", () => {
     app.setStatus(Status.FREEHAND);
   });
 
-  useHotkeys("command+a", (e) => {
-    e.preventDefault();
-    app.onSelectAll();
+  useHotkeys("e", () => {
+    app.setStatus(Status.ERASE);
   });
+
+  // useHotkeys("command+a", (e) => {
+  //   e.preventDefault();
+  //   app.onSelectAll();
+  // });
 };

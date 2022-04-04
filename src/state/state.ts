@@ -62,6 +62,7 @@ export type MoveStart = () => void;
 export type MoveSelectedShapes = (dx: number, dy: number) => void;
 export type MoveEnd = () => void;
 export type DeleteSelectedShapes = () => void;
+export type DeleteAllShapes = () => void;
 export type CurveStart = () => void;
 export type CurveMove = (point: Point) => void;
 export type CurveEnd = () => void;
@@ -522,6 +523,22 @@ export class AppState extends StateManager<App> {
           shapes: this.state.content.shapes.filter(
             (shape) => !this.state.content.selectedIds.includes(shape.id),
           ),
+        },
+      },
+    });
+  };
+
+  onDeleteAllShapes: DeleteAllShapes = () => {
+    this.setState({
+      before: {
+        ...this.state,
+      },
+      after: {
+        ...this.state,
+        content: {
+          ...this.state.content,
+          selectedIds: [],
+          shapes: [],
         },
       },
     });
