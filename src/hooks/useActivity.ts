@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export const useActivity = (): boolean => {
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(true);
 
   useEffect(() => {
     function handleMouseEnter() {
