@@ -1,6 +1,6 @@
-import { FC, useContext } from "react";
+import { FC, useContext, useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
-import { EditorOptions, Status, Theme } from "../types/app";
+import { Action, EditorOptions, Status, Theme } from "../types/app";
 import { ReactComponent as PencilSvg } from "../icons/pencil.svg";
 import { ReactComponent as EraserSvg } from "../icons/eraser.svg";
 import { ReactComponent as SquiggleSvg } from "../icons/squiggle.svg";
@@ -13,6 +13,7 @@ import { ActivityContext } from "../contexts/activity";
 type ControlsProps = {
   status: Status;
   camera: Camera;
+  action: Action;
   shapes: Shape[];
   theme: Theme;
   setTheme: SetTheme;
@@ -22,14 +23,39 @@ type ControlsProps = {
   options: EditorOptions;
 };
 
-export const Controls: FC<ControlsProps> = ({ status, theme, setTheme }) => {
+export const Controls: FC<ControlsProps> = ({ status, action, theme, setTheme }) => {
   const { setStatus } = app;
+  const containerRef = useRef<HTMLDivElement>(null);
   const active = useContext(ActivityContext);
+  const [hoveringOverControls, setHoveringOverControls] = useState(false);
+
+  const isDrawing = action === Action.DRAWING_FREEHAND;
+  const shouldHideMenu = isDrawing && hoveringOverControls;
+
+  useEffect(() => {
+    function onEnter() {
+      setHoveringOverControls(true);
+    }
+    function onExit() {
+      setHoveringOverControls(false);
+    }
+
+    const containerElement = containerRef.current;
+    if (!containerElement) return;
+
+    containerElement.addEventListener("mouseenter", onEnter);
+    containerElement.addEventListener("mouseleave", onExit);
+
+    return () => {
+      containerElement.removeEventListener("mouseenter", onEnter);
+      containerElement.removeEventListener("mouseleave", onExit);
+    };
+  }, [containerRef]);
 
   return (
-    <Container hide={!active}>
+    <Container ref={containerRef} hide={!active || shouldHideMenu}>
       <RightContainer>
-        <Swatches>
+        <SidePanel>
           {Object.values(Palette).map((color) => (
             <ColorOption
               key={color}
@@ -41,11 +67,11 @@ export const Controls: FC<ControlsProps> = ({ status, theme, setTheme }) => {
               }}
             />
           ))}
-        </Swatches>
+        </SidePanel>
       </RightContainer>
 
       <LeftContainer>
-        <DrawingControls>
+        <SidePanel>
           <DrawingOption
             selected={status === Status.FREEHAND}
             onClick={() => setStatus(Status.FREEHAND)}
@@ -54,7 +80,7 @@ export const Controls: FC<ControlsProps> = ({ status, theme, setTheme }) => {
             selected={status === Status.ERASE}
             onClick={() => setStatus(Status.ERASE)}
           />
-        </DrawingControls>
+        </SidePanel>
       </LeftContainer>
     </Container>
   );
@@ -69,7 +95,7 @@ const LeftContainer = styled.div`
   position: absolute;
   background: transparent;
   min-height: 100px;
-  width: 100px;
+  width: 80px;
   top: 12px;
   left: 12px;
   bottom: 0;
@@ -85,7 +111,7 @@ const RightContainer = styled.div`
   position: absolute;
   background: transparent;
   min-height: 100px;
-  width: 180px;
+  width: 80px;
   top: 12px;
   right: 12px;
   bottom: 0;
@@ -100,10 +126,11 @@ const RightContainer = styled.div`
 const SidePanel = styled.div`
   margin: 0;
   background: #fefefe;
-  padding: 8px;
+  padding: 4px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 16px -1px, rgba(0, 0, 0, 0.05) 0px 0px 16px -8px,
     rgba(0, 0, 0, 0.12) 0px 0px 16px -12px, rgba(0, 0, 0, 0.08) 0px 0px 2px 0px;
   box-sizing: border-box;
+  border-radius: 6px;
 
   display: flex;
   flex-direction: row;
@@ -114,21 +141,13 @@ const SidePanel = styled.div`
   pointer-events: all;
 `;
 
-const Swatches = styled(SidePanel)`
-  border-radius: 6px;
-`;
-
-const DrawingControls = styled(SidePanel)`
-  border-radius: 6px;
-`;
-
 const DrawingOption = styled(PencilSvg)<{ selected: boolean }>`
   position: relative;
   display: inline-block;
-  margin: 4px;
+  margin: 2px;
   padding: 8px;
-  height: 33px;
-  width: 33px;
+  height: 30px;
+  width: 30px;
   border-radius: 100%;
   background: ${(props) => (props.selected ? "#ddd" : "transparent")};
   cursor: pointer;
@@ -150,10 +169,10 @@ const DrawingOption = styled(PencilSvg)<{ selected: boolean }>`
 const ErasingOption = styled(EraserSvg)<{ selected: boolean }>`
   position: relative;
   display: inline-block;
-  margin: 4px;
+  margin: 2px;
   padding: 8px;
-  height: 33px;
-  width: 33px;
+  height: 30px;
+  width: 30px;
   border-radius: 100%;
   background: ${(props) => (props.selected ? "#ddd" : "transparent")};
   cursor: pointer;
@@ -175,10 +194,10 @@ const ErasingOption = styled(EraserSvg)<{ selected: boolean }>`
 const ColorOption = styled(SquiggleSvg)<{ color: string; selected: boolean }>`
   position: relative;
   display: inline-block;
-  margin: 4px;
+  margin: 2px;
   padding: 4px;
-  height: 33px;
-  width: 33px;
+  height: 30px;
+  width: 30px;
   border-radius: 100%;
   color: ${(props) => props.color};
   background: ${(props) => (props.selected ? "#ddd" : "transparent")};

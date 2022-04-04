@@ -116,6 +116,7 @@ export const Editor: FC<EditorProps> = ({
               <Controls
                 status={status}
                 camera={camera}
+                action={action}
                 shapes={content.shapes}
                 theme={theme}
                 setTheme={setTheme}
