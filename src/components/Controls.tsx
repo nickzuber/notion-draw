@@ -37,7 +37,7 @@ export const Controls: FC<ControlsProps> = ({
 }) => {
   const { setStatus, setMeta, onDeleteAllShapes } = app;
   const [showStyles, setShowStyles] = useState(false);
-  const active = useContext(ActivityContext);
+  const active = useContext(ActivityContext) || true;
 
   const isDrawing = action === Action.DRAWING_FREEHAND;
   const hidden = !active || isDrawing;
