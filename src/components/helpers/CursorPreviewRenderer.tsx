@@ -4,6 +4,7 @@ import { Circle } from "./Svg";
 import { Color } from "../../constants/color";
 import { Status } from "../../types/app";
 import { useAppState } from "../../state/state";
+import { ActivityContext } from "../../contexts/activity";
 
 type CursorPreviewProps = {
   status?: Status;
@@ -12,6 +13,7 @@ type CursorPreviewProps = {
 
 export const CursorPreviewRenderer: FC<CursorPreviewProps> = ({ status, scale }) => {
   const { position, removePreview } = useContext(CursorPreviewContext);
+  const active = useContext(ActivityContext);
   const { theme } = useAppState();
 
   useEffect(() => {
@@ -20,7 +22,7 @@ export const CursorPreviewRenderer: FC<CursorPreviewProps> = ({ status, scale })
     }
   }, [status, removePreview]);
 
-  if (!position || (position.x === 0 && position.y === 0)) {
+  if (!position || !active || (position.x === 0 && position.y === 0)) {
     return null;
   }
 

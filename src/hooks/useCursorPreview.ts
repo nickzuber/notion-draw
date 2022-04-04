@@ -37,10 +37,7 @@ export const useCursorPreview = (): CursorPreviewAPI => {
     () => withRequestAnimationFrame(renderPenPreviewAt),
     [],
   );
-  const removePreviewPerf = useMemo(
-    () => withRequestAnimationFrame(removePreview),
-    [],
-  );
+  const removePreviewPerf = useMemo(() => withRequestAnimationFrame(removePreview), []);
 
   return {
     renderPenPreviewAt: renderPenPreviewAtPerf,

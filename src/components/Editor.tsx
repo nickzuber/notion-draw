@@ -12,6 +12,7 @@ import { CursorPreviewProvider } from "../contexts/preview";
 import { MouseProvider } from "../contexts/mouse";
 import FPSStats from "./helpers/FPS";
 import { defaultEditorOptions, EditorOptions } from "../types/app";
+import { ActivityProvider } from "../contexts/activity";
 
 const Container = styled.div`
   position: relative;
@@ -76,67 +77,69 @@ export const Editor: FC<EditorProps> = ({
 
   return (
     <Container id="canvas" style={containerStyle}>
-      <MouseProvider>
-        <AnimationProvider>
-          <CursorPreviewProvider>
-            <Renderer
-              status={status}
-              action={action}
-              camera={camera}
-              theme={theme}
-              onDrawStart={onDrawStart}
-              onDrawMove={onDrawMove}
-              onDrawEnd={onDrawEnd}
-              content={content}
-              onPan={onPan}
-              onPinch={onPinch}
-              onSelect={onSelect}
-              onCurveStart={onCurveStart}
-              onCurveMove={onCurveMove}
-              onCurveEnd={onCurveEnd}
-              onMoveStart={onMoveStart}
-              onMove={onMove}
-              onMoveEnd={onMoveEnd}
-              onSetHoveredShapes={onSetHoveredShapes}
-              onPenClick={onPenClick}
-              onPenMove={onPenMove}
-              onFreehandStart={onFreehandStart}
-              onFreehandMove={onFreehandMove}
-              onFreehandEnd={onFreehandEnd}
-              onEraseStart={onEraseStart}
-              onEraseMove={onEraseMove}
-              onEraseEnd={onEraseEnd}
-              debug={debug}
-              options={options}
-              svgStyle={svgStyle}
-            />
-
-            <Controls
-              status={status}
-              camera={camera}
-              shapes={content.shapes}
-              theme={theme}
-              setTheme={setTheme}
-              selectedIds={content.selectedIds}
-              onDeleteSelectedShapes={onDeleteSelectedShapes}
-              onPinch={onPinch}
-              options={options}
-            />
-            {showFPS && <FPSStats />}
-            {debug && (
-              <DebugWindow
-                onReset={app.reset}
-                onUndo={app.undo}
-                onRedo={app.redo}
+      <ActivityProvider>
+        <MouseProvider>
+          <AnimationProvider>
+            <CursorPreviewProvider>
+              <Renderer
                 status={status}
                 action={action}
                 camera={camera}
-                viewport={viewport}
+                theme={theme}
+                onDrawStart={onDrawStart}
+                onDrawMove={onDrawMove}
+                onDrawEnd={onDrawEnd}
+                content={content}
+                onPan={onPan}
+                onPinch={onPinch}
+                onSelect={onSelect}
+                onCurveStart={onCurveStart}
+                onCurveMove={onCurveMove}
+                onCurveEnd={onCurveEnd}
+                onMoveStart={onMoveStart}
+                onMove={onMove}
+                onMoveEnd={onMoveEnd}
+                onSetHoveredShapes={onSetHoveredShapes}
+                onPenClick={onPenClick}
+                onPenMove={onPenMove}
+                onFreehandStart={onFreehandStart}
+                onFreehandMove={onFreehandMove}
+                onFreehandEnd={onFreehandEnd}
+                onEraseStart={onEraseStart}
+                onEraseMove={onEraseMove}
+                onEraseEnd={onEraseEnd}
+                debug={debug}
+                options={options}
+                svgStyle={svgStyle}
               />
-            )}
-          </CursorPreviewProvider>
-        </AnimationProvider>
-      </MouseProvider>
+
+              <Controls
+                status={status}
+                camera={camera}
+                shapes={content.shapes}
+                theme={theme}
+                setTheme={setTheme}
+                selectedIds={content.selectedIds}
+                onDeleteSelectedShapes={onDeleteSelectedShapes}
+                onPinch={onPinch}
+                options={options}
+              />
+              {showFPS && <FPSStats />}
+              {debug && (
+                <DebugWindow
+                  onReset={app.reset}
+                  onUndo={app.undo}
+                  onRedo={app.redo}
+                  status={status}
+                  action={action}
+                  camera={camera}
+                  viewport={viewport}
+                />
+              )}
+            </CursorPreviewProvider>
+          </AnimationProvider>
+        </MouseProvider>
+      </ActivityProvider>
     </Container>
   );
 };

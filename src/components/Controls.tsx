@@ -1,4 +1,4 @@
-import { FC, Fragment } from "react";
+import { FC, useContext } from "react";
 import styled from "@emotion/styled";
 import { EditorOptions, Status, Theme } from "../types/app";
 import { ReactComponent as PencilSvg } from "../icons/pencil.svg";
@@ -8,6 +8,7 @@ import { app, DeleteSelectedShapes, Pinch, SetTheme } from "../state/state";
 import { Shape, ShapeId } from "../types/shape";
 import { Camera } from "../types/canvas";
 import { Palette } from "../constants/color";
+import { ActivityContext } from "../contexts/activity";
 
 type ControlsProps = {
   status: Status;
@@ -23,9 +24,10 @@ type ControlsProps = {
 
 export const Controls: FC<ControlsProps> = ({ status, theme, setTheme }) => {
   const { setStatus } = app;
+  const active = useContext(ActivityContext);
 
   return (
-    <Fragment>
+    <Container hide={!active}>
       <RightContainer>
         <Swatches>
           {Object.values(Palette).map((color) => (
@@ -54,9 +56,14 @@ export const Controls: FC<ControlsProps> = ({ status, theme, setTheme }) => {
           />
         </DrawingControls>
       </LeftContainer>
-    </Fragment>
+    </Container>
   );
 };
+
+const Container = styled.div<{ hide: boolean }>`
+  transition: all 100ms ease;
+  opacity: ${(props) => (props.hide ? 0 : 1)};
+`;
 
 const LeftContainer = styled.div`
   position: absolute;
@@ -101,7 +108,7 @@ const SidePanel = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
   width: 100%;
   pointer-events: all;
