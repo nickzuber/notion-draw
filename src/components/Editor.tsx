@@ -1,8 +1,8 @@
 import { FC } from "react";
 import styled from "@emotion/styled";
-import { app, useAppState } from "../state/state";
+// import { app, useAppState } from "../state/state";
 // import { Renderer } from "./Renderer";
-import { Controls } from "./Controls";
+// import { Controls } from "./Controls";
 import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
 import { useSpaceBar } from "../hooks/useSpaceBar";
 // import { getBox, getViewport } from "../utils/canvas";
@@ -40,33 +40,33 @@ export const Editor: FC<EditorProps> = ({
   svgStyle = {},
   options = defaultEditorOptions,
 }) => {
-  const {
-    // onPan,
-    onPinch,
-    // onDrawStart,
-    // onDrawMove,
-    // onDrawEnd,
-    // onSelect,
-    // onCurveStart,
-    // onCurveMove,
-    // onCurveEnd,
-    // onMoveStart,
-    // onMove,
-    // onMoveEnd,
-    // onSetHoveredShapes,
-    onDeleteSelectedShapes,
-    // onPenClick,
-    // onPenMove,
-    // onFreehandStart,
-    // onFreehandMove,
-    // onFreehandEnd,
-    // onEraseStart,
-    // onEraseMove,
-    // onEraseEnd,
-    setTheme,
-  } = app;
+  // const {
+  //   onPan,
+  //   onPinch,
+  //   onDrawStart,
+  //   onDrawMove,
+  //   onDrawEnd,
+  //   onSelect,
+  //   onCurveStart,
+  //   onCurveMove,
+  //   onCurveEnd,
+  //   onMoveStart,
+  //   onMove,
+  //   onMoveEnd,
+  //   onSetHoveredShapes,
+  //   onDeleteSelectedShapes,
+  //   onPenClick,
+  //   onPenMove,
+  //   onFreehandStart,
+  //   onFreehandMove,
+  //   onFreehandEnd,
+  //   onEraseStart,
+  //   onEraseMove,
+  //   onEraseEnd,
+  //   setTheme,
+  // } = app;
 
-  const { status, action, content, camera, theme, meta } = useAppState();
+  // const { status, action, content, camera, theme, meta } = useAppState();
   // const box = getBox();
   // const viewport = getViewport(camera, box);
 
@@ -107,7 +107,8 @@ export const Editor: FC<EditorProps> = ({
                 options={options}
                 svgStyle={svgStyle}
               /> */}
-      <Controls
+      <p>test</p>
+      {/* <Controls
         status={status}
         camera={camera}
         action={action}
@@ -119,7 +120,7 @@ export const Editor: FC<EditorProps> = ({
         onDeleteSelectedShapes={onDeleteSelectedShapes}
         onPinch={onPinch}
         options={options}
-      />
+      /> */}
     </Container>
   );
 };
