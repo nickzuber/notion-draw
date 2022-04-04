@@ -113,21 +113,22 @@ export const Editor: FC<EditorProps> = ({
                 options={options}
                 svgStyle={svgStyle}
               />
-
-              <Controls
-                status={status}
-                camera={camera}
-                action={action}
-                meta={meta}
-                shapes={content.shapes}
-                theme={theme}
-                setTheme={setTheme}
-                selectedIds={content.selectedIds}
-                onDeleteSelectedShapes={onDeleteSelectedShapes}
-                onPinch={onPinch}
-                options={options}
-              />
-              {showFPS && <FPSStats />}
+              {false && (
+                <Controls
+                  status={status}
+                  camera={camera}
+                  action={action}
+                  meta={meta}
+                  shapes={content.shapes}
+                  theme={theme}
+                  setTheme={setTheme}
+                  selectedIds={content.selectedIds}
+                  onDeleteSelectedShapes={onDeleteSelectedShapes}
+                  onPinch={onPinch}
+                  options={options}
+                />
+              )}
+              ){showFPS && <FPSStats />}
               {debug && (
                 <DebugWindow
                   onReset={app.reset}
