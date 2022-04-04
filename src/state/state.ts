@@ -26,16 +26,11 @@ import { endEditing, beginEditing } from "../utils/state";
 // import { Mocks } from "./state.mocks";
 
 const initialCamera: Camera = {
-  x: -1150,
-  y: -650,
+  x: 0,
+  y: 0,
   z: 1,
 };
 
-// const initialContent: Content = {
-//   shapes: [Mocks.Lines.Horizontal, Mocks.Lines.Vertical, Mocks.Lines.Diagonal],
-//   selectedIds: [Mocks.Lines.Diagonal.id],
-//   hoveredIds: [],
-// };
 const initialContent: Content = {
   shapes: [],
   selectedIds: [],
@@ -44,6 +39,8 @@ const initialContent: Content = {
 
 const initialTheme: Theme = {
   penColor: Palette.Black,
+  penSize: 4,
+  eraserSize: 8,
 };
 
 export const initialAppState: App = {
@@ -92,6 +89,9 @@ export type AutoCurveLine = (line: Line) => boolean;
 export type FreehandStart = (point: PressuredPoint) => void;
 export type FreehandMove = (point: PressuredPoint) => void;
 export type FreehandEnd = () => void;
+export type EraseStart = (point: PressuredPoint) => void;
+export type EraseMove = (point: PressuredPoint) => void;
+export type EraseEnd = () => void;
 export type SetTheme = (theme: Partial<Theme>) => void;
 
 export class AppState extends StateManager<App> {
@@ -164,6 +164,62 @@ export class AppState extends StateManager<App> {
     });
   };
 
+  onEraseStart: EraseStart = (point) => {
+    this.setSnapshot();
+  };
+  onEraseMove: EraseMove = (point) => {
+    const pointOnCanvas = screenToCanvasPressured(point, this.state.camera);
+
+    // @HACK
+    // The web standards for this are wonky ATM - Chrome and FF seem to differ on the
+    // type of point which `isPointInStroke` should accept. Chrome forces `SVGPoint` which
+    // is already deprecated.
+    const pointOnSvg = (document.getElementById("render-scene-svg") as any)?.createSVGPoint();
+    pointOnSvg.x = pointOnCanvas.x;
+    pointOnSvg.y = pointOnCanvas.y;
+
+    const updatedShapes = this.state.content.shapes.map((shape) => {
+      if (!shape.deleting && shape.type === ShapeType.FREEFORM) {
+        const path = shape as Freeform;
+        const pathElement = document.getElementById(path.id) as SVGGeometryElement | null;
+        const shouldElementBeDeleted = pathElement?.isPointInStroke(pointOnSvg);
+        return {
+          ...path,
+          deleting: shouldElementBeDeleted,
+        };
+      }
+      return shape;
+    });
+    this.patchState({
+      action: Action.ERASING,
+      content: {
+        ...this.state.content,
+        shapes: updatedShapes,
+      },
+    });
+  };
+  onEraseEnd: EraseEnd = () => {
+    const validShapes = this.state.content.shapes.filter(isValidShape);
+    const updatedShapes = validShapes.map(endEditing);
+
+    this.setState({
+      before: {
+        action: this.snapshot.action,
+        status: this.snapshot.status,
+        content: this.snapshot.content,
+      },
+      after: {
+        action: Action.IDLE,
+        status: Status.ERASE,
+        content: {
+          ...this.state.content,
+          selectedIds: [],
+          shapes: updatedShapes,
+        },
+      },
+    });
+  };
+
   onFreehandStart: FreehandStart = (point) => {
     this.setSnapshot();
     const pointOnCanvas = screenToCanvasPressured(point, this.state.camera);
@@ -174,6 +230,7 @@ export class AppState extends StateManager<App> {
       editing: true,
       points: [pointOnCanvas],
       color: this.state.theme.penColor,
+      size: this.state.theme.penSize,
     } as Freeform;
 
     this.patchState({
@@ -756,7 +813,7 @@ export class AppState extends StateManager<App> {
   };
 }
 
-export const app = new AppState(initialAppState, "spectre", 2);
+export const app = new AppState(initialAppState, "spectre", 3);
 
 export const useAppState = (selector?: StateSelector<App, any>) => {
   if (selector) {

@@ -1,12 +1,9 @@
 import styled from "@emotion/styled";
 import { FC, useRef } from "react";
 import { useCursorStyles } from "../hooks/useCursorStyles";
-import { useDrawingEffect } from "../hooks/useDrawingEffect";
+import { useEraseEffect } from "../hooks/useEraseEffect";
 import { useFreehandEffect } from "../hooks/useFreehandEffect";
-import { useHoverEffect } from "../hooks/useHoverEffect";
 import { useMousePanEffect } from "../hooks/useMousePanEffect";
-import { useMouseSelectEffect } from "../hooks/useMouseSelectEffect";
-import { usePenEffect } from "../hooks/usePenEffect";
 import { useWheelEffect } from "../hooks/useWheelEffect";
 import {
   CurveEnd,
@@ -27,6 +24,9 @@ import {
   Select,
   SetHoveredShapes,
   MoveStart,
+  EraseStart,
+  EraseMove,
+  EraseEnd,
 } from "../state/state";
 import { Action, Content, EditorOptions, Status, Theme } from "../types/app";
 import { Camera } from "../types/canvas";
@@ -69,6 +69,9 @@ type RendererProps = {
   onFreehandStart: FreehandStart;
   onFreehandMove: FreehandMove;
   onFreehandEnd: FreehandEnd;
+  onEraseStart: EraseStart;
+  onEraseMove: EraseMove;
+  onEraseEnd: EraseEnd;
   debug?: boolean;
   options: EditorOptions;
   svgStyle?: React.CSSProperties;
@@ -79,25 +82,14 @@ export const Renderer: FC<RendererProps> = ({
   action,
   status,
   content,
-  theme,
-  onDrawStart,
-  onDrawMove,
-  onDrawEnd,
   onPan,
   onPinch,
-  onSelect,
-  onMoveStart,
-  onMove,
-  onMoveEnd,
-  onCurveStart,
-  onCurveMove,
-  onCurveEnd,
-  onSetHoveredShapes,
-  onPenClick,
-  onPenMove,
   onFreehandStart,
   onFreehandMove,
   onFreehandEnd,
+  onEraseStart,
+  onEraseMove,
+  onEraseEnd,
   debug,
   options,
   svgStyle = {},
@@ -113,30 +105,17 @@ export const Renderer: FC<RendererProps> = ({
   useMousePanEffect(svgRef, status, onPan, options.disablePanning);
 
   // Cursor
-  useHoverEffect(status, onSetHoveredShapes);
   useCursorStyles(svgRef, status);
 
   // Controls
-  useDrawingEffect(svgRef, status, onDrawStart, onDrawMove, onDrawEnd);
-  usePenEffect(svgRef, status, onPenClick, onPenMove);
   useFreehandEffect(svgRef, status, onFreehandStart, onFreehandMove, onFreehandEnd);
-  useMouseSelectEffect(
-    svgRef,
-    status,
-    onSelect,
-    onCurveStart,
-    onCurveMove,
-    onCurveEnd,
-    onMoveStart,
-    onMove,
-    onMoveEnd,
-  );
+  useEraseEffect(svgRef, status, onEraseStart, onEraseMove, onEraseEnd);
 
   // Rendering variables.
   const transform = `scale(${camera.z}) translate(${camera.x}px, ${camera.y}px)`;
 
   return (
-    <svg ref={svgRef} style={svgStyle}>
+    <svg id="render-scene-svg" ref={svgRef} style={svgStyle}>
       {/* Actual content group */}
       <g style={{ transform }}>
         {/* Background Pattern */}
@@ -174,7 +153,7 @@ export const Renderer: FC<RendererProps> = ({
         {drawMetaItems(status, action, selectedShapes, camera.z)}
 
         <AnimationRenderer />
-        {status === Status.PEN ? (
+        {status === Status.FREEHAND || status === Status.ERASE ? (
           <CursorPreviewRenderer status={status} scale={camera.z} />
         ) : null}
       </g>

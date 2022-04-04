@@ -61,6 +61,9 @@ export const Editor: FC<EditorProps> = ({
     onFreehandStart,
     onFreehandMove,
     onFreehandEnd,
+    onEraseStart,
+    onEraseMove,
+    onEraseEnd,
     setTheme,
   } = app;
 
@@ -100,6 +103,9 @@ export const Editor: FC<EditorProps> = ({
               onFreehandStart={onFreehandStart}
               onFreehandMove={onFreehandMove}
               onFreehandEnd={onFreehandEnd}
+              onEraseStart={onEraseStart}
+              onEraseMove={onEraseMove}
+              onEraseEnd={onEraseEnd}
               debug={debug}
               options={options}
               svgStyle={svgStyle}

@@ -18,7 +18,9 @@ export type Shape = {
   id: ShapeId;
   type: ShapeType;
   editing: boolean;
+  deleting?: boolean;
   color?: string;
+  size?: number;
 };
 
 export interface Line extends Shape {

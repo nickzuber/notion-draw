@@ -100,15 +100,16 @@ export function getSvgPathFromStroke(stroke: number[][]) {
 }
 
 export function isValidShape(shape: Shape) {
+  if (shape.deleting) return false;
+
   switch (shape.type) {
     case ShapeType.LINE:
       const line = shape as Line;
       return distanceBetweenPoints(line.start, line.end) > MAX_VALID_LINE_LENGTH;
     case ShapeType.FREEFORM:
-      // Just consider all markings as valid shapes for now as we see how people use this.
+      // const path = shape as Freeform;
+      // return getApproximateSizeOfFreeform(path) > MAX_VALID_FREEFORM_SIZE;
       return true;
-    // const path = shape as Freeform;
-    // return getApproximateSizeOfFreeform(path) > MAX_VALID_FREEFORM_SIZE;
     default:
       return true;
   }
@@ -237,9 +238,9 @@ export function renderLineShape(line: Line) {
     <Path
       key={line.id}
       id={line.id}
-      strokeWidth={LINE_STROKE_WIDTH}
+      strokeWidth={line.size || LINE_STROKE_WIDTH}
       strokeLinecap="round"
-      stroke={Color.Shape.Primary}
+      stroke={line.color || Color.Shape.Primary}
       fill={Color.Shape.Secondary}
       d={`
         M ${pointToPathSegment(line.start)}
@@ -250,7 +251,7 @@ export function renderLineShape(line: Line) {
     <Path
       key={line.id}
       id={line.id}
-      strokeWidth={LINE_STROKE_WIDTH}
+      strokeWidth={line.size || LINE_STROKE_WIDTH}
       strokeLinecap="round"
       stroke={line.color || Color.Shape.Primary}
       fill={Color.Shape.Secondary}
@@ -296,10 +297,11 @@ export function renderFreeformShape(path: Freeform) {
     <Path
       key={path.id}
       id={path.id}
-      strokeWidth={FREEFORM_STROKE_WIDTH}
+      strokeWidth={path.size || FREEFORM_STROKE_WIDTH}
       strokeLinecap="round"
       stroke={path.color || Color.Shape.Primary}
       fill={Color.Shape.Secondary}
+      opacity={path.deleting ? 0.5 : 1}
       d={`
         ${getFreeformSvgPath(path)}
       `}

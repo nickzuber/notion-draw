@@ -1,18 +1,18 @@
 import { useContext, useEffect, useRef } from "react";
 import withRequestAnimationFrame from "raf-schd";
-import { FreehandStart, FreehandMove, FreehandEnd } from "../state/state";
+import { EraseStart, EraseMove, EraseEnd } from "../state/state";
 import { Status } from "../types/app";
 import { getBox } from "../utils/canvas";
 import { Point, PressuredPoint } from "../types/canvas";
 import { CursorPreviewContext } from "../contexts/preview";
 import { MouseContext } from "../contexts/mouse";
 
-export const useFreehandEffect = (
+export const useEraseEffect = (
   svgRef: React.RefObject<SVGSVGElement>,
   status: Status,
-  onFreehandStart: FreehandStart,
-  onFreehandMove: FreehandMove,
-  onFreehandEnd: FreehandEnd,
+  onEraseStart: EraseStart,
+  onEraseMove: EraseMove,
+  onEraseEnd: EraseEnd,
 ) => {
   const pointerRef = useRef<PressuredPoint | null>(null);
   const finalPositionRef = useRef<Point | null>(null);
@@ -21,14 +21,14 @@ export const useFreehandEffect = (
 
   // Handles showing the pen circle preview.
   useEffect(() => {
-    if (status === Status.FREEHAND) {
+    if (status === Status.ERASE) {
       renderPenPreviewAt(finalPositionRef.current || mousePosition);
     }
   }, [status, mousePosition, renderPenPreviewAt]);
 
   // Handles drawing the pen lines.
   useEffect(() => {
-    if (status !== Status.FREEHAND) return;
+    if (status !== Status.ERASE) return;
 
     function handleMouseDown(event: PointerEvent) {
       event.preventDefault();
@@ -36,7 +36,7 @@ export const useFreehandEffect = (
       const { left, top } = getBox();
       pointerRef.current = { x: clientX - left, y: clientY - top, pressure: event.pressure };
 
-      onFreehandStart(pointerRef.current);
+      onEraseStart(pointerRef.current);
     }
 
     function handleMouseMove(event: PointerEvent) {
@@ -46,12 +46,12 @@ export const useFreehandEffect = (
       const { left, top } = getBox();
       pointerRef.current = { x: clientX - left, y: clientY - top, pressure: event.pressure };
 
-      onFreehandMove(pointerRef.current);
+      onEraseMove(pointerRef.current);
     }
 
     function handleMouseUp() {
       if (!pointerRef.current) return;
-      onFreehandEnd();
+      onEraseEnd();
       pointerRef.current = null;
     }
 
@@ -77,7 +77,7 @@ export const useFreehandEffect = (
       document.removeEventListener("pointermove", handleMouseMovePerf);
       document.removeEventListener("pointerup", handleMouseUpPerf);
     };
-  }, [svgRef, status, onFreehandStart, onFreehandMove, onFreehandEnd]);
+  }, [svgRef, status, onEraseStart, onEraseMove, onEraseEnd]);
 
   return null;
 };

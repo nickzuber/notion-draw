@@ -28,6 +28,7 @@ export enum Status {
   CURVE = "curve",
   PEN = "pen",
   FREEHAND = "freehand",
+  ERASE = "erase",
 }
 
 export enum Action {
@@ -38,6 +39,7 @@ export enum Action {
   CURVING,
   HOVERING,
   MOVING,
+  ERASING,
 }
 
 export type Content = {
@@ -48,6 +50,8 @@ export type Content = {
 
 export type Theme = {
   penColor: string;
+  penSize: number;
+  eraserSize: number;
 };
 
 export type App = {
@@ -74,6 +78,8 @@ export function statusToString(status: Status) {
       return "Pen";
     case Status.FREEHAND:
       return "Freehand";
+    case Status.ERASE:
+      return "Erase";
   }
 }
 
@@ -93,5 +99,7 @@ export function actionToString(action: Action) {
       return "Hovering";
     case Action.MOVING:
       return "Moving";
+    case Action.ERASING:
+      return "Erasing";
   }
 }

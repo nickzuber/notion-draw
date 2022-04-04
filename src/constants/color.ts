@@ -38,6 +38,7 @@ export const Palette = {
   Blue: "#339af0",
   Green: "#37b24d",
   Red: "#f03e3e",
+  Cyan: "#3bc9db",
   Yellow: "#fcc419",
   Orange: "#fd7e14",
   Purple: "#845ef7",
