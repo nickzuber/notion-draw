@@ -847,7 +847,7 @@ export class AppState extends StateManager<App> {
   };
 }
 
-export const app = new AppState(initialAppState, "spectre", 4);
+export const app = new AppState(initialAppState, "spectre", 5);
 
 export const useAppState = (selector?: StateSelector<App, any>) => {
   if (selector) {

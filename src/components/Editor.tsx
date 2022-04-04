@@ -2,8 +2,8 @@ import { FC } from "react";
 import styled from "@emotion/styled";
 import { app, useAppState } from "../state/state";
 import { Renderer } from "./Renderer";
+import { Controls } from "./Controls";
 import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
-import { useSpaceBar } from "../hooks/useSpaceBar";
 import { getBox, getViewport } from "../utils/canvas";
 import { DebugWindow } from "./DebugWindow";
 import { AnimationProvider } from "../contexts/animation";
@@ -55,6 +55,7 @@ export const Editor: FC<EditorProps> = ({
     onMove,
     onMoveEnd,
     onSetHoveredShapes,
+    onDeleteSelectedShapes,
     onPenClick,
     onPenMove,
     onFreehandStart,
@@ -63,6 +64,7 @@ export const Editor: FC<EditorProps> = ({
     onEraseStart,
     onEraseMove,
     onEraseEnd,
+    setTheme,
   } = app;
 
   const { status, action, content, camera, theme, meta } = useAppState();
@@ -70,7 +72,6 @@ export const Editor: FC<EditorProps> = ({
   const viewport = getViewport(camera, box);
 
   useKeyboardShortcuts();
-  useSpaceBar();
 
   return (
     <Container id="canvas" style={containerStyle}>
@@ -109,6 +110,19 @@ export const Editor: FC<EditorProps> = ({
                 debug={debug}
                 options={options}
                 svgStyle={svgStyle}
+              />
+              <Controls
+                status={status}
+                camera={camera}
+                action={action}
+                meta={meta}
+                shapes={content.shapes}
+                theme={theme}
+                setTheme={setTheme}
+                selectedIds={content.selectedIds}
+                onDeleteSelectedShapes={onDeleteSelectedShapes}
+                onPinch={onPinch}
+                options={options}
               />
               ){showFPS && <FPSStats />}
               {debug && (
