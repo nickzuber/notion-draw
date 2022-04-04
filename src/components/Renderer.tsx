@@ -1,10 +1,10 @@
 // import styled from "@emotion/styled";
-import { FC, useRef } from "react";
-import { useCursorStyles } from "../hooks/useCursorStyles";
-import { useEraseEffect } from "../hooks/useEraseEffect";
-import { useFreehandEffect } from "../hooks/useFreehandEffect";
-import { useMousePanEffect } from "../hooks/useMousePanEffect";
-import { useWheelEffect } from "../hooks/useWheelEffect";
+import { FC } from "react";
+// import { useCursorStyles } from "../hooks/useCursorStyles";
+// import { useEraseEffect } from "../hooks/useEraseEffect";
+// import { useFreehandEffect } from "../hooks/useFreehandEffect";
+// import { useMousePanEffect } from "../hooks/useMousePanEffect";
+// import { useWheelEffect } from "../hooks/useWheelEffect";
 import {
   CurveEnd,
   CurveMove,
@@ -96,22 +96,22 @@ export const Renderer: FC<RendererProps> = ({
   options,
   svgStyle = {},
 }) => {
-  const svgRef = useRef<SVGSVGElement>(null);
+  // const svgRef = useRef<SVGSVGElement>(null);
 
   // const { shapes, selectedIds, hoveredIds } = content;
   // const hoveredShapes = shapes.filter(({ id }) => hoveredIds.includes(id));
   // const selectedShapes = shapes.filter(({ id }) => selectedIds.includes(id));
 
   // Panning
-  useWheelEffect(svgRef, onPinch, onPan, options.disablePanning || meta.disablePanning);
-  useMousePanEffect(svgRef, status, onPan, options.disablePanning || meta.disablePanning);
+  // useWheelEffect(svgRef, onPinch, onPan, options.disablePanning || meta.disablePanning);
+  // useMousePanEffect(svgRef, status, onPan, options.disablePanning || meta.disablePanning);
 
-  // Cursor
-  useCursorStyles(svgRef, status);
+  // // Cursor
+  // useCursorStyles(svgRef, status);
 
-  // Controls
-  useFreehandEffect(svgRef, status, onFreehandStart, onFreehandMove, onFreehandEnd);
-  useEraseEffect(svgRef, status, onEraseStart, onEraseMove, onEraseEnd);
+  // // Controls
+  // useFreehandEffect(svgRef, status, onFreehandStart, onFreehandMove, onFreehandEnd);
+  // useEraseEffect(svgRef, status, onEraseStart, onEraseMove, onEraseEnd);
 
   // Rendering variables.
   const transform = `scale(${camera.z}) translate(${camera.x}px, ${camera.y}px)`;
