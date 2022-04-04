@@ -165,7 +165,7 @@ const RightContainer = styled.div`
   background: transparent;
   min-height: 100px;
   width: 215px;
-  top: 24px;
+  top: 32px;
   right: 12px;
   bottom: 0;
 
