@@ -1,7 +1,7 @@
 import { FC } from "react";
 import styled from "@emotion/styled";
 import { app, useAppState } from "../state/state";
-import { Renderer } from "./Renderer";
+// import { Renderer } from "./Renderer";
 import { Controls } from "./Controls";
 import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
 import { useSpaceBar } from "../hooks/useSpaceBar";
@@ -43,28 +43,28 @@ export const Editor: FC<EditorProps> = ({
   options = defaultEditorOptions,
 }) => {
   const {
-    onPan,
+    // onPan,
     onPinch,
-    onDrawStart,
-    onDrawMove,
-    onDrawEnd,
-    onSelect,
-    onCurveStart,
-    onCurveMove,
-    onCurveEnd,
-    onMoveStart,
-    onMove,
-    onMoveEnd,
-    onSetHoveredShapes,
+    // onDrawStart,
+    // onDrawMove,
+    // onDrawEnd,
+    // onSelect,
+    // onCurveStart,
+    // onCurveMove,
+    // onCurveEnd,
+    // onMoveStart,
+    // onMove,
+    // onMoveEnd,
+    // onSetHoveredShapes,
     onDeleteSelectedShapes,
-    onPenClick,
-    onPenMove,
-    onFreehandStart,
-    onFreehandMove,
-    onFreehandEnd,
-    onEraseStart,
-    onEraseMove,
-    onEraseEnd,
+    // onPenClick,
+    // onPenMove,
+    // onFreehandStart,
+    // onFreehandMove,
+    // onFreehandEnd,
+    // onEraseStart,
+    // onEraseMove,
+    // onEraseEnd,
     setTheme,
   } = app;
 
@@ -81,7 +81,7 @@ export const Editor: FC<EditorProps> = ({
         <MouseProvider>
           <AnimationProvider>
             <CursorPreviewProvider>
-              <Renderer
+              {/* <Renderer
                 status={status}
                 action={action}
                 meta={meta}
@@ -112,7 +112,7 @@ export const Editor: FC<EditorProps> = ({
                 debug={debug}
                 options={options}
                 svgStyle={svgStyle}
-              />
+              /> */}
               <Controls
                 status={status}
                 camera={camera}
@@ -126,7 +126,7 @@ export const Editor: FC<EditorProps> = ({
                 onPinch={onPinch}
                 options={options}
               />
-              ){showFPS && <FPSStats />}
+              {showFPS && <FPSStats />}
               {debug && (
                 <DebugWindow
                   onReset={app.reset}
