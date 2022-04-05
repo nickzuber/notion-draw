@@ -270,9 +270,9 @@ function pressuredPointToArray(points: PressuredPoint[]): number[][] {
 export function getFreeformSvgPath(path: Freeform, size = FREEFORM_STROKE_WIDTH) {
   const options = {
     size,
-    thinning: 0,
-    smoothing: 0.5,
+    thinning: -0.55,
     streamline: 0.5,
+    smoothing: 0.45,
     easing: (t: number) => t,
     start: {
       taper: 0,
@@ -300,7 +300,7 @@ export function renderFreeformShape(path: Freeform) {
       strokeWidth={path.size || FREEFORM_STROKE_WIDTH}
       strokeLinecap="round"
       stroke={path.color || Color.Shape.Primary}
-      fill={Color.Shape.Secondary}
+      fill={path.color || Color.Shape.Primary}
       opacity={path.deleting ? 0.5 : 1}
       d={`
         ${getFreeformSvgPath(path)}

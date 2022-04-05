@@ -422,7 +422,7 @@ const Section = styled.div`
 const Label = styled.div`
   width: 42px;
   span {
-    margin-top: 12px;
+    margin-top: 10px;
   }
 `;
 
