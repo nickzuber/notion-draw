@@ -49,8 +49,8 @@ export const Controls: FC<ControlsProps> = ({
   }, [isDrawing]);
 
   return (
-    <Container hide={hidden}>
-      <RightContainer>
+    <Container>
+      <RightContainer hide={hidden}>
         <SidePanel style={{ width: 145 }}>
           <StyleSummary onClick={() => setShowStyles((s) => !s)}>
             <Group>
@@ -112,7 +112,7 @@ export const Controls: FC<ControlsProps> = ({
         )}
       </RightContainer>
 
-      <LeftContainer>
+      <LeftContainer hide={hidden}>
         <SidePanel>
           <DrawingOption
             selected={status === Status.FREEHAND}
@@ -137,13 +137,22 @@ export const Controls: FC<ControlsProps> = ({
   );
 };
 
-const Container = styled.div<{ hide: boolean }>`
+const Container = styled.div``;
+
+const HidableContainer = styled.div<{ hide: boolean }>`
   transition: all 250ms ease;
   pointer-events: ${(props) => (props.hide ? "none" : "all")};
   opacity: ${(props) => (props.hide ? 0 : 1)};
+  transform: scale(${(props) => (props.hide ? 0.975 : 1)});
+
+  cursor: ${(props) => (props.hide ? "default !important" : null)};
+
+  * {
+    cursor: ${(props) => (props.hide ? "default !important" : null)};
+  }
 `;
 
-const LeftContainer = styled.div`
+const LeftContainer = styled(HidableContainer)`
   position: absolute;
   background: transparent;
   min-height: 100px;
@@ -160,7 +169,7 @@ const LeftContainer = styled.div`
   user-select: none;
 `;
 
-const RightContainer = styled.div`
+const RightContainer = styled(HidableContainer)`
   position: absolute;
   background: transparent;
   min-height: 100px;
