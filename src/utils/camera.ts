@@ -15,10 +15,7 @@ export function panCamera(camera: Camera, dx: number, dy: number): Camera {
 }
 
 export function zoomCameraTo(camera: Camera, point: Point, dz: number): Camera {
-  const zoom = Math.min(
-    Math.max(camera.z - dz * camera.z, Bounds.minZ),
-    Bounds.maxZ
-  );
+  const zoom = Math.min(Math.max(camera.z - dz * camera.z, Bounds.minZ), Bounds.maxZ);
 
   const p1 = screenToCanvas(point, camera);
   const p2 = screenToCanvas(point, { ...camera, z: zoom });
@@ -27,6 +24,20 @@ export function zoomCameraTo(camera: Camera, point: Point, dz: number): Camera {
     x: camera.x + (p2.x - p1.x),
     y: camera.y + (p2.y - p1.y),
     z: zoom,
+  };
+}
+
+export function resetZoom(camera: Camera): Camera {
+  const { width, height } = getBox();
+  const center = { x: width / 2, y: height / 2 };
+
+  const p1 = screenToCanvas(center, camera);
+  const p2 = screenToCanvas(center, { ...camera, z: 1 });
+
+  return {
+    x: camera.x + (p2.x - p1.x),
+    y: camera.y + (p2.y - p1.y),
+    z: 1,
   };
 }
 
@@ -48,10 +59,7 @@ export function requestZoomOut(camera: Camera): ZoomRequest {
   return { center, dz: camera.z - nextZoom };
 }
 
-export function updateCamera(
-  camera: Camera,
-  updater: (camera: Camera) => Camera
-): Camera {
+export function updateCamera(camera: Camera, updater: (camera: Camera) => Camera): Camera {
   const nextCamera = updater(camera);
   const nextViewport = getViewport(nextCamera, getBox());
 

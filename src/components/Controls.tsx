@@ -2,7 +2,6 @@ import { FC, useContext, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Action, EditorOptions, Meta, Status, Theme } from "../types/app";
 import { ReactComponent as TrashSvg } from "../icons/trash.svg";
-import { ReactComponent as PencilSvg } from "../icons/pencil.svg";
 import { ReactComponent as EraserSvg } from "../icons/eraser.svg";
 import { ReactComponent as SquiggleSvg } from "../icons/squiggle.svg";
 import { ReactComponent as LockSvg } from "../icons/lock.svg";
@@ -35,7 +34,7 @@ export const Controls: FC<ControlsProps> = ({
   theme,
   setTheme,
 }) => {
-  const { setStatus, setMeta, onDeleteAllShapes } = app;
+  const { setStatus, setMeta, onResetZoom, onDeleteAllShapes } = app;
   const [showStyles, setShowStyles] = useState(false);
   const active = useContext(ActivityContext);
 
@@ -63,7 +62,7 @@ export const Controls: FC<ControlsProps> = ({
           </StyleSummary>
         </SidePanel>
         {showStyles && (
-          <SidePanel style={{ padding: "4px 12px", justifyContent: "flex-start" }}>
+          <AdjustableSidePanel>
             <Section>
               <Label>
                 <Text>Colors</Text>
@@ -108,7 +107,11 @@ export const Controls: FC<ControlsProps> = ({
                 />
               </Options>
             </Section>
-          </SidePanel>
+
+            <Section>
+              <Button onClick={() => onResetZoom()}>Reset zoom</Button>
+            </Section>
+          </AdjustableSidePanel>
         )}
       </RightContainer>
 
@@ -205,6 +208,15 @@ const SidePanel = styled.div`
   pointer-events: all;
 `;
 
+const AdjustableSidePanel = styled(SidePanel)`
+  padding: 8px 12px 0;
+  justify-content: flex-start;
+
+  @media (max-height: 240px) {
+    width: 350px;
+  }
+`;
+
 const StyleSummary = styled.div`
   display: flex;
   flex-direction: row;
@@ -213,7 +225,7 @@ const StyleSummary = styled.div`
   padding: 4px 8px;
   height: 30px;
   width: 100%;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 100ms ease;
 
@@ -226,11 +238,11 @@ const StyleSummary = styled.div`
   }
 `;
 
-const DrawingOption = styled(PencilSvg)<{ selected: boolean }>`
+const DrawingOption = styled(SquiggleSvg)<{ selected: boolean }>`
   position: relative;
   display: inline-block;
   margin: 2px;
-  padding: 8px;
+  padding: 4px;
   height: 30px;
   width: 30px;
   border-radius: 100%;
@@ -244,10 +256,6 @@ const DrawingOption = styled(PencilSvg)<{ selected: boolean }>`
 
   &:active {
     background: #ccc;
-  }
-
-  path {
-    stroke-width: 2px;
   }
 `;
 
@@ -255,7 +263,7 @@ const ErasingOption = styled(EraserSvg)<{ selected: boolean }>`
   position: relative;
   display: inline-block;
   margin: 2px;
-  padding: 8px;
+  padding: 4px;
   height: 30px;
   width: 30px;
   border-radius: 100%;
@@ -270,17 +278,13 @@ const ErasingOption = styled(EraserSvg)<{ selected: boolean }>`
   &:active {
     background: #ccc;
   }
-
-  path {
-    stroke-width: 2px;
-  }
 `;
 
 const DeleteOption = styled(TrashSvg)`
   position: relative;
   display: inline-block;
   margin: 2px;
-  padding: 8px;
+  padding: 6px;
   height: 30px;
   width: 30px;
   border-radius: 100%;
@@ -295,17 +299,13 @@ const DeleteOption = styled(TrashSvg)`
   &:active {
     background: #ccc;
   }
-
-  path {
-    stroke-width: 2px;
-  }
 `;
 
 const LockOption = styled(LockSvg)`
   position: relative;
   display: inline-block;
   margin: 2px;
-  padding: 8px;
+  padding: 6px;
   height: 30px;
   width: 30px;
   border-radius: 100%;
@@ -330,7 +330,7 @@ const UnlockOption = styled(LockOpenedSvg)`
   position: relative;
   display: inline-block;
   margin: 2px;
-  padding: 8px;
+  padding: 6px;
   height: 30px;
   width: 30px;
   border-radius: 100%;
@@ -361,12 +361,12 @@ const SummaryStroke = styled(SquiggleSvg)<{ color: string; size?: number }>`
   border-radius: 100%;
   color: ${(props) => props.color};
   background: transparent;
-  transform: rotate(192deg);
+  // transform: rotate(192deg);
   cursor: pointer;
   transition: all 100ms ease;
 
   path {
-    stroke-width: ${(props) => props.size || null};
+    fill: ${(props) => props.color}3b;
   }
 `;
 
@@ -380,7 +380,7 @@ const ColorOption = styled(SquiggleSvg)<{ color: string; selected: boolean }>`
   border-radius: 100%;
   color: ${(props) => props.color};
   background: ${(props) => (props.selected ? "#ddd" : "transparent")};
-  transform: rotate(192deg);
+  // transform: rotate(192deg);
   cursor: pointer;
   transition: all 100ms ease;
 
@@ -393,7 +393,7 @@ const ColorOption = styled(SquiggleSvg)<{ color: string; selected: boolean }>`
   }
 
   path {
-    stroke-width: 2px;
+    fill: ${(props) => props.color}3b;
   }
 `;
 
@@ -402,6 +402,26 @@ const Text = styled.span`
   font-size: 13px;
   font-weight: 500;
   line-height: 14px;
+`;
+
+const Button = styled(Text)`
+  padding: 4px 8px;
+  height: 30px;
+  width: 100%;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 100ms ease;
+
+  &:hover {
+    background: #eee;
+  }
+
+  &:active {
+    background: #ccc;
+  }
 `;
 
 const Group = styled.div`
@@ -442,8 +462,8 @@ const StrokeSize = styled.div<{ color: string; selected: boolean; size: number }
   margin: 2px;
   padding: 4px;
   height: 30px;
-  width: 100%;
-  border-radius: 12px;
+  width: 30px;
+  border-radius: 6px;
   background: ${(props) => (props.selected ? "#ddd" : "transparent")};
 
   display: inline-flex;

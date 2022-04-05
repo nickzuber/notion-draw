@@ -3,7 +3,7 @@ import { Palette } from "../constants/color";
 import { Action, App, Content, Meta, StateSelector, Status, Theme } from "../types/app";
 import { Camera, Point, PressuredPoint, Zoom } from "../types/canvas";
 import { Line, Freeform, Shape, ShapeId, ShapeType } from "../types/shape";
-import { panCamera, updateCamera, zoomCameraTo } from "../utils/camera";
+import { panCamera, resetZoom, updateCamera, zoomCameraTo } from "../utils/camera";
 import { screenToCanvas, screenToCanvasPressured } from "../utils/canvas";
 import { notEmpty } from "../utils/general";
 import {
@@ -59,6 +59,7 @@ export type SetStatus = (status: Status) => void;
 export type SelectAll = () => void;
 export type Pan = (dx: number, dy: number) => void;
 export type Pinch = (center: Point, dz: Zoom) => void;
+export type ResetZoom = () => void;
 export type DrawStart = (type: ShapeType, point: Point) => void;
 export type DrawMove = (type: ShapeType, point: Point, snapToAngle?: boolean) => Point | null;
 export type DrawEnd = () => void;
@@ -177,6 +178,17 @@ export class AppState extends StateManager<App> {
       },
       after: {
         camera: updateCamera(this.state.camera, (camera) => zoomCameraTo(camera, center, dz)),
+      },
+    });
+  };
+
+  onResetZoom: ResetZoom = () => {
+    this.setState({
+      before: {
+        camera: this.state.camera,
+      },
+      after: {
+        camera: updateCamera(this.state.camera, (camera) => resetZoom(camera)),
       },
     });
   };

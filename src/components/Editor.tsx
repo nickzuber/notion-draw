@@ -124,7 +124,7 @@ export const Editor: FC<EditorProps> = ({
                 onPinch={onPinch}
                 options={options}
               />
-              ){showFPS && <FPSStats />}
+              {showFPS && <FPSStats />}
               {debug && (
                 <DebugWindow
                   onReset={app.reset}
