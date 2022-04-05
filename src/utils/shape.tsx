@@ -297,13 +297,13 @@ export function renderFreeformShape(path: Freeform) {
     <Path
       key={path.id}
       id={path.id}
-      strokeWidth={path.size || FREEFORM_STROKE_WIDTH}
+      // strokeWidth={path.size || FREEFORM_STROKE_WIDTH}
+      stroke="none"
       strokeLinecap="round"
-      stroke={path.color || Color.Shape.Primary}
       fill={path.color || Color.Shape.Primary}
       opacity={path.deleting ? 0.5 : 1}
       d={`
-        ${getFreeformSvgPath(path)}
+        ${getFreeformSvgPath(path, path.size)}
       `}
     />
   );

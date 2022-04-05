@@ -411,6 +411,7 @@ const Group = styled.div`
 `;
 
 const Section = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -428,6 +429,7 @@ const Label = styled.div`
 
 const Options = styled.div`
   flex: 3;
+  width: 100%;
   padding-left: 12px;
   display: flex;
   flex-wrap: wrap;
@@ -440,8 +442,8 @@ const StrokeSize = styled.div<{ color: string; selected: boolean; size: number }
   margin: 2px;
   padding: 4px;
   height: 30px;
-  width: 30px;
-  border-radius: 100%;
+  width: 100%;
+  border-radius: 12px;
   background: ${(props) => (props.selected ? "#ddd" : "transparent")};
 
   display: inline-flex;
@@ -460,7 +462,7 @@ const StrokeSize = styled.div<{ color: string; selected: boolean; size: number }
 
   &:after {
     content: "";
-    width: 20px;
+    width: 90%;
     height: ${(props) => props.size}px;
     background: ${(props) => props.color};
     border-radius: 4px;
