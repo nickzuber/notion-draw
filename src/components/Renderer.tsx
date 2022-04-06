@@ -110,8 +110,15 @@ export const Renderer: FC<RendererProps> = ({
   useCursorStyles(svgRef, status);
 
   // Controls
-  useFreehandEffect(svgRef, status, onFreehandStart, onFreehandMove, onFreehandEnd);
-  useEraseEffect(svgRef, status, onEraseStart, onEraseMove, onEraseEnd);
+  useFreehandEffect(
+    svgRef,
+    status,
+    onFreehandStart,
+    onFreehandMove,
+    onFreehandEnd,
+    meta.locked,
+  );
+  useEraseEffect(svgRef, status, onEraseStart, onEraseMove, onEraseEnd, meta.locked);
 
   // Rendering variables.
   const transform = `scale(${camera.z}) translate(${camera.x}px, ${camera.y}px)`;

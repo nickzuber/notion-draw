@@ -13,6 +13,7 @@ export const useEraseEffect = (
   onEraseStart: EraseStart,
   onEraseMove: EraseMove,
   onEraseEnd: EraseEnd,
+  locked: boolean,
 ) => {
   const pointerRef = useRef<PressuredPoint | null>(null);
   const finalPositionRef = useRef<Point | null>(null);
@@ -28,6 +29,7 @@ export const useEraseEffect = (
 
   // Handles drawing the pen lines.
   useEffect(() => {
+    if (locked) return;
     if (status !== Status.ERASE) return;
 
     function handleMouseDown(event: PointerEvent) {
@@ -77,7 +79,7 @@ export const useEraseEffect = (
       document.removeEventListener("pointermove", handleMouseMovePerf);
       document.removeEventListener("pointerup", handleMouseUpPerf);
     };
-  }, [svgRef, status, onEraseStart, onEraseMove, onEraseEnd]);
+  }, [svgRef, status, onEraseStart, onEraseMove, onEraseEnd, locked]);
 
   return null;
 };

@@ -13,6 +13,7 @@ export const useFreehandEffect = (
   onFreehandStart: FreehandStart,
   onFreehandMove: FreehandMove,
   onFreehandEnd: FreehandEnd,
+  locked: boolean,
 ) => {
   const pointerRef = useRef<PressuredPoint | null>(null);
   const finalPositionRef = useRef<Point | null>(null);
@@ -28,6 +29,7 @@ export const useFreehandEffect = (
 
   // Handles drawing the pen lines.
   useEffect(() => {
+    if (locked) return;
     if (status !== Status.FREEHAND) return;
 
     function handleMouseDown(event: PointerEvent) {
@@ -77,7 +79,7 @@ export const useFreehandEffect = (
       document.removeEventListener("pointermove", handleMouseMovePerf);
       document.removeEventListener("pointerup", handleMouseUpPerf);
     };
-  }, [svgRef, status, onFreehandStart, onFreehandMove, onFreehandEnd]);
+  }, [svgRef, status, onFreehandStart, onFreehandMove, onFreehandEnd, locked]);
 
   return null;
 };

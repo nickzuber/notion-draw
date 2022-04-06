@@ -139,12 +139,12 @@ export const Controls: FC<ControlsProps> = ({
         </SidePanel>
 
         <SidePanel>
-          <DeleteOption onClick={() => onDeleteAllShapes()} />
           {meta.locked ? (
             <LockOption onClick={() => setMeta({ locked: false })} />
           ) : (
             <UnlockOption onClick={() => setMeta({ locked: true })} />
           )}
+          <DeleteOption onClick={() => onDeleteAllShapes()} />
         </SidePanel>
       </LeftContainer>
     </Container>
