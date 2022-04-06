@@ -44,20 +44,6 @@ export const Editor: FC<EditorProps> = ({
   const {
     onPan,
     onPinch,
-    onDrawStart,
-    onDrawMove,
-    onDrawEnd,
-    onSelect,
-    onCurveStart,
-    onCurveMove,
-    onCurveEnd,
-    onMoveStart,
-    onMove,
-    onMoveEnd,
-    onSetHoveredShapes,
-    onDeleteSelectedShapes,
-    onPenClick,
-    onPenMove,
     onFreehandStart,
     onFreehandMove,
     onFreehandEnd,
@@ -85,22 +71,9 @@ export const Editor: FC<EditorProps> = ({
                 meta={meta}
                 camera={camera}
                 theme={theme}
-                onDrawStart={onDrawStart}
-                onDrawMove={onDrawMove}
-                onDrawEnd={onDrawEnd}
                 content={content}
                 onPan={onPan}
                 onPinch={onPinch}
-                onSelect={onSelect}
-                onCurveStart={onCurveStart}
-                onCurveMove={onCurveMove}
-                onCurveEnd={onCurveEnd}
-                onMoveStart={onMoveStart}
-                onMove={onMove}
-                onMoveEnd={onMoveEnd}
-                onSetHoveredShapes={onSetHoveredShapes}
-                onPenClick={onPenClick}
-                onPenMove={onPenMove}
                 onFreehandStart={onFreehandStart}
                 onFreehandMove={onFreehandMove}
                 onFreehandEnd={onFreehandEnd}
@@ -116,13 +89,8 @@ export const Editor: FC<EditorProps> = ({
                 camera={camera}
                 action={action}
                 meta={meta}
-                shapes={content.shapes}
                 theme={theme}
                 setTheme={setTheme}
-                selectedIds={content.selectedIds}
-                onDeleteSelectedShapes={onDeleteSelectedShapes}
-                onPinch={onPinch}
-                options={options}
               />
               {showFPS && <FPSStats />}
               {debug && (

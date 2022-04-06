@@ -1,13 +1,12 @@
 import { FC, useContext, useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { Action, EditorOptions, Meta, Status, Theme } from "../types/app";
+import { Action, Meta, Status, Theme } from "../types/app";
 import { ReactComponent as TrashSvg } from "../icons/trash.svg";
 import { ReactComponent as EraserSvg } from "../icons/eraser.svg";
 import { ReactComponent as SquiggleSvg } from "../icons/squiggle.svg";
 import { ReactComponent as LockSvg } from "../icons/lock.svg";
 import { ReactComponent as LockOpenedSvg } from "../icons/lock-opened.svg";
-import { app, DeleteSelectedShapes, Pinch, SetTheme } from "../state/state";
-import { Shape, ShapeId } from "../types/shape";
+import { app, SetTheme } from "../state/state";
 import { Camera } from "../types/canvas";
 import { Palette } from "../constants/color";
 import { ActivityContext } from "../contexts/activity";
@@ -18,13 +17,8 @@ type ControlsProps = {
   camera: Camera;
   meta: Meta;
   action: Action;
-  shapes: Shape[];
   theme: Theme;
   setTheme: SetTheme;
-  selectedIds: ShapeId[];
-  onDeleteSelectedShapes: DeleteSelectedShapes;
-  onPinch: Pinch;
-  options: EditorOptions;
 };
 
 export const Controls: FC<ControlsProps> = ({

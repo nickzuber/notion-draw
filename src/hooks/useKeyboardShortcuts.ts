@@ -11,10 +11,6 @@ export const useKeyboardShortcuts = () => {
     app.redo();
   });
 
-  useHotkeys("e,backspace", () => {
-    app.onDeleteSelectedShapes();
-  });
-
   useHotkeys("escape", () => {
     app.setStatus(Status.FREEHAND);
   });
@@ -26,9 +22,4 @@ export const useKeyboardShortcuts = () => {
   useHotkeys("e", () => {
     app.setStatus(Status.ERASE);
   });
-
-  // useHotkeys("command+a", (e) => {
-  //   e.preventDefault();
-  //   app.onSelectAll();
-  // });
 };

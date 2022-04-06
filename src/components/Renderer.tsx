@@ -1,29 +1,14 @@
 import styled from "@emotion/styled";
 import { FC, useRef } from "react";
-import { useCursorStyles } from "../hooks/useCursorStyles";
 import { useEraseEffect } from "../hooks/useEraseEffect";
 import { useFreehandEffect } from "../hooks/useFreehandEffect";
-import { useMousePanEffect } from "../hooks/useMousePanEffect";
 import { useWheelEffect } from "../hooks/useWheelEffect";
 import {
-  CurveEnd,
-  CurveMove,
-  CurveStart,
-  DrawEnd,
-  DrawMove,
-  DrawStart,
   FreehandStart,
   FreehandMove,
   FreehandEnd,
-  MoveEnd,
-  MoveSelectedShapes,
   Pan,
-  PenClick,
-  PenMove,
   Pinch,
-  Select,
-  SetHoveredShapes,
-  MoveStart,
   EraseStart,
   EraseMove,
   EraseEnd,
@@ -32,17 +17,8 @@ import { Action, Content, EditorOptions, Meta, Status, Theme } from "../types/ap
 import { Camera } from "../types/canvas";
 import { Bounds } from "../utils/canvas";
 import { drawShapesInDebugMode } from "../utils/debug";
-import {
-  drawMetaItems,
-  drawSelectionState,
-  drawSelectionStateForBox,
-  drawSelectionStateForBoxHandles,
-  drawShapeHoverState,
-  drawShapes,
-  drawShapeTools,
-} from "../utils/shape";
+import { drawShapes } from "../utils/shape";
 import { AnimationRenderer } from "./helpers/AnimationRenderer";
-// import { CursorPreviewRenderer } from "./helpers/CursorPreviewRenderer";
 import { ForeignObject } from "./helpers/Svg";
 
 type RendererProps = {
@@ -52,21 +28,8 @@ type RendererProps = {
   camera: Camera;
   content: Content;
   theme: Theme;
-  onDrawStart: DrawStart;
-  onDrawMove: DrawMove;
-  onDrawEnd: DrawEnd;
   onPan: Pan;
   onPinch: Pinch;
-  onSelect: Select;
-  onMoveStart: MoveStart;
-  onMove: MoveSelectedShapes;
-  onMoveEnd: MoveEnd;
-  onCurveStart: CurveStart;
-  onCurveMove: CurveMove;
-  onCurveEnd: CurveEnd;
-  onSetHoveredShapes: SetHoveredShapes;
-  onPenClick: PenClick;
-  onPenMove: PenMove;
   onFreehandStart: FreehandStart;
   onFreehandMove: FreehandMove;
   onFreehandEnd: FreehandEnd;
@@ -98,16 +61,11 @@ export const Renderer: FC<RendererProps> = ({
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
 
-  const { shapes, selectedIds, hoveredIds } = content;
-  const hoveredShapes = shapes.filter(({ id }) => hoveredIds.includes(id));
-  const selectedShapes = shapes.filter(({ id }) => selectedIds.includes(id));
+  const { shapes } = content;
 
   // Panning
   useWheelEffect(svgRef, onPinch, onPan, options.disablePanning || meta.locked);
-  useMousePanEffect(svgRef, status, onPan, options.disablePanning || meta.locked);
-
-  // Cursor
-  useCursorStyles(svgRef, status);
+  // useMousePanEffect(svgRef, status, onPan, options.disablePanning || meta.locked);
 
   // Controls
   useFreehandEffect(
@@ -140,31 +98,9 @@ export const Renderer: FC<RendererProps> = ({
           </ForeignObject>
         )}
 
-        {/** @NOTE
-         * Because of the laws of SVG rendering, we need to render the selection box
-         * separately from the rest of the selection state since we need it to be under
-         * the shapes (for click-event-reasons).
-         * https://www.w3.org/TR/SVG11/render.html#RenderingOrder */}
-        {drawSelectionStateForBox(status, selectedShapes, camera.z)}
-
         {drawShapes(shapes)}
-        {drawShapeHoverState(status, hoveredShapes, selectedIds, camera.z)}
-        {drawSelectionState(status, action, selectedShapes, camera.z)}
-        {drawShapeTools(status, selectedShapes, camera.z)}
-
-        {/** @NOTE
-         * Because of the laws of SVG rendering, we need to render the selection box
-         * separately from the rest of the selection state since we need it to be under
-         * the shapes (for click-event-reasons).
-         * https://www.w3.org/TR/SVG11/render.html#RenderingOrder */}
-        {drawSelectionStateForBoxHandles(status, selectedShapes, camera.z)}
-
-        {drawMetaItems(status, action, selectedShapes, camera.z)}
 
         <AnimationRenderer />
-        {/* {status === Status.FREEHAND || status === Status.ERASE ? (
-          <CursorPreviewRenderer status={status} scale={camera.z} />
-        ) : null} */}
       </g>
 
       {/* Debugging group */}

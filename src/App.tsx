@@ -9,10 +9,7 @@ export default function Notion() {
       }}
       options={{
         hideBackgroundPattern: true,
-        hideControls: true,
-        hideHeader: true,
         disablePanning: false,
-        embedMode: true,
       }}
       containerStyle={{
         height: "100vh",
