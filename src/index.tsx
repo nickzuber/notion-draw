@@ -12,6 +12,9 @@ ReactDOM.render(
         <Route exact path="/">
           <App />
         </Route>
+        <Route path="/:id">
+          <App />
+        </Route>
       </Switch>
     </Router>
   </React.StrictMode>,

@@ -833,6 +833,7 @@ export class AppState extends StateManager<App> {
   };
 }
 
+alert("test");
 export const app = new AppState(initialAppState, "notion-draw", 1);
 
 export const useAppState = (selector?: StateSelector<App, any>) => {
