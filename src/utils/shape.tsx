@@ -107,9 +107,10 @@ export function isValidShape(shape: Shape) {
       const line = shape as Line;
       return distanceBetweenPoints(line.start, line.end) > MAX_VALID_LINE_LENGTH;
     case ShapeType.FREEFORM:
-      // const path = shape as Freeform;
-      // return getApproximateSizeOfFreeform(path) > MAX_VALID_FREEFORM_SIZE;
-      return true;
+      const path = shape as Freeform;
+      // If the user simply clicks on the screen, let's not
+      // consider this to be a valid shape.
+      return getApproximateSizeOfFreeform(path) > 0;
     default:
       return true;
   }
@@ -297,7 +298,6 @@ export function renderFreeformShape(path: Freeform) {
     <Path
       key={path.id}
       id={path.id}
-      // strokeWidth={path.size || FREEFORM_STROKE_WIDTH}
       stroke="none"
       strokeLinecap="round"
       fill={path.color || Color.Shape.Primary}

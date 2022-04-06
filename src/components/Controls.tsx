@@ -123,7 +123,10 @@ export const Controls: FC<ControlsProps> = ({
           />
           <ErasingOption
             selected={status === Status.ERASE}
-            onClick={() => setStatus(Status.ERASE)}
+            onClick={() => {
+              setStatus(Status.ERASE);
+              setShowStyles(false);
+            }}
           />
         </SidePanel>
 

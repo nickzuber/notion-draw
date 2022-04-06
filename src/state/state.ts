@@ -286,12 +286,6 @@ export class AppState extends StateManager<App> {
     const validShapes = this.state.content.shapes.filter(isValidShape);
     const updatedShapes = validShapes.map(endEditing);
 
-    // If the path just drawn was not valid, we assume the user is trying
-    // to exit the drawing mode.
-    const wasSomeEditedIdValid = this.state.content.shapes
-      .filter((shape) => shape.editing)
-      .some(isValidShape);
-
     this.setState({
       before: {
         action: this.snapshot.action,
@@ -300,7 +294,7 @@ export class AppState extends StateManager<App> {
       },
       after: {
         action: Action.IDLE,
-        status: wasSomeEditedIdValid ? Status.FREEHAND : Status.IDLE,
+        status: Status.FREEHAND,
         content: {
           ...this.state.content,
           selectedIds: [],
