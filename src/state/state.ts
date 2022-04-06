@@ -140,24 +140,14 @@ export class AppState extends StateManager<App> {
   };
 
   onPan: Pan = (dx, dy) => {
-    this.setState({
-      before: {
-        camera: this.state.camera,
-      },
-      after: {
-        camera: updateCamera(this.state.camera, (camera) => panCamera(camera, dx, dy)),
-      },
+    this.patchState({
+      camera: updateCamera(this.state.camera, (camera) => panCamera(camera, dx, dy)),
     });
   };
 
   onPinch: Pinch = (center, dz) => {
-    this.setState({
-      before: {
-        camera: this.state.camera,
-      },
-      after: {
-        camera: updateCamera(this.state.camera, (camera) => zoomCameraTo(camera, center, dz)),
-      },
+    this.patchState({
+      camera: updateCamera(this.state.camera, (camera) => zoomCameraTo(camera, center, dz)),
     });
   };
 
@@ -843,7 +833,7 @@ export class AppState extends StateManager<App> {
   };
 }
 
-export const app = new AppState(initialAppState, "spectre", 5);
+export const app = new AppState(initialAppState, "notion-draw", 1);
 
 export const useAppState = (selector?: StateSelector<App, any>) => {
   if (selector) {

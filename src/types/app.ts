@@ -55,7 +55,7 @@ export type Theme = {
 };
 
 export type Meta = {
-  disablePanning: boolean;
+  locked: boolean;
 };
 
 export type App = {

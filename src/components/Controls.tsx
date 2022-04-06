@@ -38,19 +38,18 @@ export const Controls: FC<ControlsProps> = ({
   const [showStyles, setShowStyles] = useState(false);
   const active = useContext(ActivityContext);
 
+  const isLocked = meta.locked;
   const isDrawing = action === Action.DRAWING_FREEHAND;
   const hidden = !active || isDrawing;
 
   useEffect(() => {
-    if (isDrawing) {
-      setShowStyles(false);
-    }
-  }, [isDrawing]);
+    setShowStyles(false);
+  }, [hidden]);
 
   return (
     <Container>
       <RightContainer hide={hidden}>
-        <SidePanel style={{ width: 145 }}>
+        <SidePanel style={{ width: 145 }} hide={isLocked}>
           <StyleSummary onClick={() => setShowStyles((s) => !s)}>
             <Group>
               <Text>Styles</Text>
@@ -91,19 +90,28 @@ export const Controls: FC<ControlsProps> = ({
                   size={2}
                   color={theme.penColor}
                   selected={theme.penSize === 2}
-                  onClick={() => setTheme({ penSize: 2 })}
+                  onClick={() => {
+                    setStatus(Status.FREEHAND);
+                    setTheme({ penSize: 2 });
+                  }}
                 />
                 <StrokeSize
                   size={4}
                   color={theme.penColor}
                   selected={theme.penSize === 4}
-                  onClick={() => setTheme({ penSize: 4 })}
+                  onClick={() => {
+                    setStatus(Status.FREEHAND);
+                    setTheme({ penSize: 4 });
+                  }}
                 />
                 <StrokeSize
                   size={8}
                   color={theme.penColor}
                   selected={theme.penSize === 8}
-                  onClick={() => setTheme({ penSize: 8 })}
+                  onClick={() => {
+                    setStatus(Status.FREEHAND);
+                    setTheme({ penSize: 8 });
+                  }}
                 />
               </Options>
             </Section>
@@ -116,7 +124,7 @@ export const Controls: FC<ControlsProps> = ({
       </RightContainer>
 
       <LeftContainer hide={hidden}>
-        <SidePanel>
+        <SidePanel hide={isLocked}>
           <DrawingOption
             selected={status === Status.FREEHAND}
             onClick={() => setStatus(Status.FREEHAND)}
@@ -132,10 +140,10 @@ export const Controls: FC<ControlsProps> = ({
 
         <SidePanel>
           <DeleteOption onClick={() => onDeleteAllShapes()} />
-          {meta.disablePanning ? (
-            <LockOption onClick={() => setMeta({ disablePanning: false })} />
+          {meta.locked ? (
+            <LockOption onClick={() => setMeta({ locked: false })} />
           ) : (
-            <UnlockOption onClick={() => setMeta({ disablePanning: true })} />
+            <UnlockOption onClick={() => setMeta({ locked: true })} />
           )}
         </SidePanel>
       </LeftContainer>
@@ -191,7 +199,7 @@ const RightContainer = styled(HidableContainer)`
   background: transparent;
   min-height: 100px;
   width: 215px;
-  top: 24px;
+  top: 32px;
   right: 12px;
   bottom: 0;
 

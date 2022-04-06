@@ -21,5 +21,5 @@ export const initialTheme: Theme = {
 };
 
 export const initialMeta: Meta = {
-  disablePanning: false,
+  locked: false,
 };

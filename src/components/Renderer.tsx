@@ -42,7 +42,7 @@ import {
   drawShapeTools,
 } from "../utils/shape";
 import { AnimationRenderer } from "./helpers/AnimationRenderer";
-import { CursorPreviewRenderer } from "./helpers/CursorPreviewRenderer";
+// import { CursorPreviewRenderer } from "./helpers/CursorPreviewRenderer";
 import { ForeignObject } from "./helpers/Svg";
 
 type RendererProps = {
@@ -103,8 +103,8 @@ export const Renderer: FC<RendererProps> = ({
   const selectedShapes = shapes.filter(({ id }) => selectedIds.includes(id));
 
   // Panning
-  useWheelEffect(svgRef, onPinch, onPan, options.disablePanning || meta.disablePanning);
-  useMousePanEffect(svgRef, status, onPan, options.disablePanning || meta.disablePanning);
+  useWheelEffect(svgRef, onPinch, onPan, options.disablePanning || meta.locked);
+  useMousePanEffect(svgRef, status, onPan, options.disablePanning || meta.locked);
 
   // Cursor
   useCursorStyles(svgRef, status);
@@ -155,9 +155,9 @@ export const Renderer: FC<RendererProps> = ({
         {drawMetaItems(status, action, selectedShapes, camera.z)}
 
         <AnimationRenderer />
-        {status === Status.FREEHAND || status === Status.ERASE ? (
+        {/* {status === Status.FREEHAND || status === Status.ERASE ? (
           <CursorPreviewRenderer status={status} scale={camera.z} />
-        ) : null}
+        ) : null} */}
       </g>
 
       {/* Debugging group */}
