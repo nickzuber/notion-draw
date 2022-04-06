@@ -484,7 +484,7 @@ const StrokeSize = styled.div<{ color: string; selected: boolean; size: number }
   margin: 2px;
   padding: 4px;
   height: 30px;
-  width: 30px;
+  width: 40px;
   border-radius: 6px;
   background: ${(props) => (props.selected ? "#ddd" : "transparent")};
 

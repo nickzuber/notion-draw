@@ -833,8 +833,8 @@ export class AppState extends StateManager<App> {
   };
 }
 
-const url = window.location.href;
 // export const app = new AppState(initialAppState, "notion-draw", 1);
+const url = window.location.href;
 export const app = new AppState(initialAppState, url, 1);
 
 export const useAppState = (selector?: StateSelector<App, any>) => {
