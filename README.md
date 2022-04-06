@@ -1,46 +1,33 @@
-# Getting Started with Create React App
+<img src="public/drawn-favicon.png" width="200" />
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Notion Draw
 
-## Available Scripts
+> Simple drawing app for doodling within [Notion](https://www.notion.so/product).
 
-In the project directory, you can run:
+# How it works
 
-### `npm start`
+This is simply a web app for doodling that integrates nicely with Notion pages. To create a drawing, you just need to go to `notion-draw.vercel.app/name-for-drawing` and begin drawing.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The way drawings are saved are based on the names you give them in the URL - so make sure your add a unique name at the end of any embedded links.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# Usage
 
-### `npm test`
+1. Anywhere within [Notion](https://www.notion.so/product), create an embed block and type out the URL for Notion Draw and make sure to add a unique name at the end.
+Example: `notion-draw.vercel.app/name-for-drawing`
+<img width="731" alt="image" src="https://user-images.githubusercontent.com/10540865/162068784-1cd98082-f581-44a6-8e99-0e48fedd3516.png">
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. You should be greeted with a blank canvas - you may begin drawing and your doodles will be saved automatically (using the unique name you gave the embedded URL).
+<img width="732" alt="image" src="https://user-images.githubusercontent.com/10540865/162069000-27a26c3d-b6ce-4953-930f-ce62e41bcdc8.png">
 
-### `npm run build`
+3. Any drawings will be saved automatically to the URL, so this means you can re-use the same drawings if you embed the same URL in other areas of your pages!
+<img width="732" alt="image" src="https://user-images.githubusercontent.com/10540865/162069707-5e88e956-9b9b-4469-8976-00310ef4281c.png">
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# FAQ
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**Q. Does this work on mobile?**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Not really - it's currently not possible to store any kind of data within an embedded link with this kind of approach AFAIK. So keep in mind on mobile, your drawings will appear blank and any edits on mobile will not be persisted.
 
-### `npm run eject`
+**Q. Does this work between computers? Can I share my drawings?**
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+No - all drawings are local to your computer. These doodles are only for yourself.
