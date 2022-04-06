@@ -7,10 +7,6 @@ export default function Notion() {
       svgStyle={{
         background: "#fff",
       }}
-      options={{
-        hideBackgroundPattern: true,
-        disablePanning: false,
-      }}
       containerStyle={{
         height: "100vh",
         minHeight: "100vh",
@@ -18,6 +14,12 @@ export default function Notion() {
         borderRadius: 0,
         margin: 0,
       }}
+      options={{
+        hideBackgroundPattern: true,
+        disablePanning: false,
+      }}
+      debug={false}
+      showFPS={false}
     />
   );
 }
