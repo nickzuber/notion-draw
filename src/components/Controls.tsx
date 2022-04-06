@@ -11,6 +11,7 @@ import { Shape, ShapeId } from "../types/shape";
 import { Camera } from "../types/canvas";
 import { Palette } from "../constants/color";
 import { ActivityContext } from "../contexts/activity";
+import { withTooltip } from "./helpers/Tooltips";
 
 type ControlsProps = {
   status: Status;
@@ -140,11 +141,29 @@ export const Controls: FC<ControlsProps> = ({
 
         <SidePanel>
           {meta.locked ? (
-            <LockOption onClick={() => setMeta({ locked: false })} />
+            <LockOption
+              tooltip="Unlock this board and re-enable editing"
+              tooltipOffsetX={94}
+              tooltipOffsetY={-65}
+              tooltipSpeed={200}
+              onClick={() => setMeta({ locked: false })}
+            />
           ) : (
-            <UnlockOption onClick={() => setMeta({ locked: true })} />
+            <UnlockOption
+              tooltip="Lock this board and disable editing"
+              tooltipOffsetX={82}
+              tooltipOffsetY={-65}
+              tooltipSpeed={200}
+              onClick={() => setMeta({ locked: true })}
+            />
           )}
-          <DeleteOption onClick={() => onDeleteAllShapes()} />
+          <DeleteOption
+            tooltip="Clear everything from the board"
+            tooltipOffsetX={40}
+            tooltipOffsetY={-65}
+            tooltipSpeed={200}
+            onClick={() => onDeleteAllShapes()}
+          />
         </SidePanel>
       </LeftContainer>
     </Container>
@@ -302,7 +321,7 @@ const ErasingOption = styled(EraserSvg)<{ selected: boolean }>`
   }
 `;
 
-const DeleteOption = styled(TrashSvg)`
+const DeleteOption = withTooltip(styled(TrashSvg)`
   position: relative;
   display: inline-block;
   margin: 2px;
@@ -321,34 +340,9 @@ const DeleteOption = styled(TrashSvg)`
   &:active {
     background: #ccc;
   }
-`;
+`);
 
-const LockOption = styled(LockSvg)`
-  position: relative;
-  display: inline-block;
-  margin: 2px;
-  padding: 6px;
-  height: 30px;
-  width: 30px;
-  border-radius: 100%;
-  background: transparent;
-  cursor: pointer;
-  transition: all 100ms ease;
-
-  &:hover {
-    background: #eee;
-  }
-
-  &:active {
-    background: #ccc;
-  }
-
-  path {
-    stroke-width: 2px;
-  }
-`;
-
-const UnlockOption = styled(LockOpenedSvg)`
+const LockOption = withTooltip(styled(LockSvg)`
   position: relative;
   display: inline-block;
   margin: 2px;
@@ -371,7 +365,32 @@ const UnlockOption = styled(LockOpenedSvg)`
   path {
     stroke-width: 2px;
   }
-`;
+`);
+
+const UnlockOption = withTooltip(styled(LockOpenedSvg)`
+  position: relative;
+  display: inline-block;
+  margin: 2px;
+  padding: 6px;
+  height: 30px;
+  width: 30px;
+  border-radius: 100%;
+  background: transparent;
+  cursor: pointer;
+  transition: all 100ms ease;
+
+  &:hover {
+    background: #eee;
+  }
+
+  &:active {
+    background: #ccc;
+  }
+
+  path {
+    stroke-width: 2px;
+  }
+`);
 
 const SummaryStroke = styled(SquiggleSvg)<{ color: string; size?: number }>`
   position: relative;

@@ -1,0 +1,102 @@
+import React from "react";
+
+class Tooltip extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.id = ("tooltip-id-" + Math.random()).replace(/\./g, "");
+  }
+
+  static defaultProps = {
+    tooltipOffsetX: 0,
+    tooltipOffsetY: 0,
+    tooltipSpeed: 350,
+  };
+
+  getTooltipElement = () => document.querySelector(`#${this.id}`);
+
+  onMouseEnter = (event) => {
+    if (this.getTooltipElement()) {
+      return;
+    }
+
+    const { tooltipOffsetX, tooltipOffsetY } = this.props;
+    const {
+      x,
+      y,
+      width: targetWidth,
+      height: targetHeight,
+    } = event.target.getBoundingClientRect();
+    const text = document.createTextNode(this.props.message);
+    const tooltipElement = document.createElement("div");
+
+    tooltipElement.setAttribute("id", this.id);
+    tooltipElement.setAttribute("class", "react-tooltip");
+    tooltipElement.appendChild(text);
+
+    document.querySelector("body").appendChild(tooltipElement);
+
+    const { width } = tooltipElement.getBoundingClientRect();
+    const positionStyle = `
+      top: ${y + targetHeight + window.scrollY + tooltipOffsetY}px;
+      left: ${x - width / 2 + targetWidth / 2 + tooltipOffsetX}px;
+      ${
+        this.props.dark
+          ? `
+        background: #ffffff;
+        color: #10293c;
+      `
+          : ""
+      }
+    `;
+
+    tooltipElement.setAttribute("style", positionStyle);
+
+    this.timeout = setTimeout(() => {
+      tooltipElement.setAttribute(
+        "style",
+        `
+          ${positionStyle}
+          opacity: ${this.props.dark ? 1 : 0.9};
+        `,
+      );
+    }, this.props.tooltipSpeed);
+  };
+
+  removeTooltip = () => {
+    clearTimeout(this.timeout);
+    const tooltipElement = this.getTooltipElement();
+    if (tooltipElement) {
+      tooltipElement.parentNode.removeChild(tooltipElement);
+    }
+  };
+
+  render() {
+    return this.props.children({
+      onMouseEnter: this.onMouseEnter,
+      onMouseLeave: this.removeTooltip,
+      onMouseDown: this.removeTooltip,
+    });
+  }
+}
+
+export const withTooltip =
+  (WrappedComponent) =>
+  ({ tooltip, tooltipOffsetX, tooltipOffsetY, tooltipSpeed, ...props }) =>
+    (
+      <Tooltip
+        dark={props.dark}
+        message={tooltip}
+        tooltipOffsetX={tooltipOffsetX}
+        tooltipOffsetY={tooltipOffsetY}
+        tooltipSpeed={tooltipSpeed}
+      >
+        {(mouseEvents) =>
+          tooltip ? (
+            <WrappedComponent {...props} {...mouseEvents} />
+          ) : (
+            <WrappedComponent {...props} />
+          )
+        }
+      </Tooltip>
+    );

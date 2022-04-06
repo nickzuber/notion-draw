@@ -65,3 +65,18 @@ rect.editor-handle {
   fill: white;
   stroke-width: 0.5;
 }
+
+.react-tooltip {
+  z-index: 999999;
+  pointer-events: none;
+  position: absolute;
+  background: #10293c;
+  color: #fff;
+  padding: 4px 8px;
+  font-weight: 600;
+  font-size: 11px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: all 75ms ease-in;
+}
