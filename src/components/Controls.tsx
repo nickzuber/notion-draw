@@ -34,7 +34,7 @@ export const Controls: FC<ControlsProps> = ({
   theme,
   setTheme,
 }) => {
-  const { setStatus, setMeta, onResetZoom, onDeleteAllShapes } = app;
+  const { setStatus, setMeta, onResetCamera, onDeleteAllShapes } = app;
   const [showStyles, setShowStyles] = useState(false);
   const active = useContext(ActivityContext);
 
@@ -62,7 +62,7 @@ export const Controls: FC<ControlsProps> = ({
           </StyleSummary>
         </SidePanel>
         {showStyles && (
-          <AdjustableSidePanel>
+          <TogglablePanel>
             <Section>
               <Label>
                 <Text>Colors</Text>
@@ -109,9 +109,9 @@ export const Controls: FC<ControlsProps> = ({
             </Section>
 
             <Section>
-              <Button onClick={() => onResetZoom()}>Reset zoom</Button>
+              <Button onClick={() => onResetCamera()}>Reset zoom & center</Button>
             </Section>
-          </AdjustableSidePanel>
+          </TogglablePanel>
         )}
       </RightContainer>
 
@@ -140,9 +140,20 @@ export const Controls: FC<ControlsProps> = ({
   );
 };
 
+const TogglablePanel: FC = ({ children }) => {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const ts = setTimeout(() => setReady(true), 10);
+    return () => clearTimeout(ts);
+  }, []);
+
+  return <AdjustableSidePanel hide={!ready}>{children}</AdjustableSidePanel>;
+};
+
 const Container = styled.div``;
 
-const HidableContainer = styled.div<{ hide: boolean }>`
+const HidableContainer = styled.div<{ hide?: boolean }>`
   transition: all 250ms ease;
   pointer-events: ${(props) => (props.hide ? "none" : "all")};
   opacity: ${(props) => (props.hide ? 0 : 1)};
@@ -189,7 +200,7 @@ const RightContainer = styled(HidableContainer)`
   user-select: none;
 `;
 
-const SidePanel = styled.div`
+const SidePanel = styled(HidableContainer)`
   margin: 0 0 8px;
   background: #fefefe;
   min-height: 30px;

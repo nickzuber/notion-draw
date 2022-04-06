@@ -1,7 +1,7 @@
 import { StateManager } from "rko";
-import { Palette } from "../constants/color";
-import { Action, App, Content, Meta, StateSelector, Status, Theme } from "../types/app";
-import { Camera, Point, PressuredPoint, Zoom } from "../types/canvas";
+import { initialCamera, initialContent, initialMeta, initialTheme } from "../constants/state";
+import { Action, App, Meta, StateSelector, Status, Theme } from "../types/app";
+import { Point, PressuredPoint, Zoom } from "../types/canvas";
 import { Line, Freeform, Shape, ShapeId, ShapeType } from "../types/shape";
 import { panCamera, resetZoom, updateCamera, zoomCameraTo } from "../utils/camera";
 import { screenToCanvas, screenToCanvasPressured } from "../utils/canvas";
@@ -24,28 +24,6 @@ import {
 } from "../utils/shape";
 import { endEditing, beginEditing } from "../utils/state";
 
-const initialCamera: Camera = {
-  x: -1150,
-  y: -650,
-  z: 1,
-};
-
-const initialContent: Content = {
-  shapes: [],
-  selectedIds: [],
-  hoveredIds: [],
-};
-
-const initialTheme: Theme = {
-  penColor: Palette.Black,
-  penSize: 4,
-  eraserSize: 8,
-};
-
-const initialMeta: Meta = {
-  disablePanning: false,
-};
-
 export const initialAppState: App = {
   status: Status.FREEHAND,
   action: Action.IDLE,
@@ -60,6 +38,7 @@ export type SelectAll = () => void;
 export type Pan = (dx: number, dy: number) => void;
 export type Pinch = (center: Point, dz: Zoom) => void;
 export type ResetZoom = () => void;
+export type ResetCamera = () => void;
 export type DrawStart = (type: ShapeType, point: Point) => void;
 export type DrawMove = (type: ShapeType, point: Point, snapToAngle?: boolean) => Point | null;
 export type DrawEnd = () => void;
@@ -189,6 +168,17 @@ export class AppState extends StateManager<App> {
       },
       after: {
         camera: updateCamera(this.state.camera, (camera) => resetZoom(camera)),
+      },
+    });
+  };
+
+  onResetCamera: ResetCamera = () => {
+    this.setState({
+      before: {
+        camera: this.state.camera,
+      },
+      after: {
+        camera: updateCamera(this.state.camera, () => initialCamera),
       },
     });
   };
