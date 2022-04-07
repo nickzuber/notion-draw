@@ -12,7 +12,8 @@ export default function Notion() {
       ) : (
         <Editor
           svgStyle={{
-            background: "#fff",
+            // background: "#fff",
+            background: "#0f0",
           }}
           containerStyle={{
             height: "100vh",
