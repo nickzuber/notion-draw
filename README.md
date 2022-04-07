@@ -6,14 +6,14 @@
 
 # How it works
 
-This is simply a web app for doodling that integrates nicely with Notion pages. To create a drawing, you just need to go to `notion-draw.vercel.app/name-for-drawing` and begin drawing.
+This is simply a web app for doodling that integrates nicely with Notion pages. To create a drawing, you just need to go to `notion-draw.art/name-for-drawing` and begin drawing.
 
 The way drawings are saved are based on the names you give them in the URL - so make sure your add a unique name at the end of any embedded links.
 
 # Usage
 
 1. Anywhere within [Notion](https://www.notion.so/product), create an embed block and type out the URL for Notion Draw and make sure to add a unique name at the end.
-   Example: `notion-draw.vercel.app/name-for-drawing`
+   Example: `notion-draw.art/name-for-drawing`
    <img width="731" alt="image" src="https://user-images.githubusercontent.com/10540865/162068784-1cd98082-f581-44a6-8e99-0e48fedd3516.png">
 
 2. You should be greeted with a blank canvas - you may begin drawing and your doodles will be saved automatically (using the unique name you gave the embedded URL).

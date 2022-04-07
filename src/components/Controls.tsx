@@ -70,6 +70,7 @@ export const Controls: FC<ControlsProps> = ({
                     onClick={() => {
                       setStatus(Status.FREEHAND);
                       setTheme({ penColor: color });
+                      setShowStyles(false);
                     }}
                   />
                 ))}
