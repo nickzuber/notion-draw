@@ -250,9 +250,13 @@ export class AppState extends StateManager<App> {
   };
 }
 
-// export const app = new AppState(initialAppState, "notion-draw", 1);
 const url = window.location.href;
-export const app = new AppState(initialAppState, url, 1);
+const isNewURL = url.includes("notion-draw.art");
+
+// Avoid upgrades on older drawings.
+const version = isNewURL ? 2 : 1;
+
+export const app = new AppState(initialAppState, url, version);
 
 export const useAppState = (selector?: StateSelector<App, any>) => {
   if (selector) {
