@@ -1,4 +1,4 @@
-<img src="public/transparent-title.png" />
+<img width="400" src="public/transparent-title.png" />
 
 # Notion Draw
 
