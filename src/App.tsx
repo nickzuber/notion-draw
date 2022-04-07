@@ -1,11 +1,12 @@
 import { Editor } from "./components/Editor";
+import { isMobile } from "./constants/app";
 import "./css/styles.css";
 
 export default function Notion() {
   return (
     <Editor
       svgStyle={{
-        background: "#fff",
+        background: isMobile ? "#f00" : "#fff",
       }}
       containerStyle={{
         height: "100vh",
