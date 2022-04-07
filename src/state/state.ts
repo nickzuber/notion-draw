@@ -127,7 +127,8 @@ export class AppState extends StateManager<App> {
       if (!shape.deleting && shape.type === ShapeType.FREEFORM) {
         const path = shape as Freeform;
         const pathElement = document.getElementById(path.id) as SVGGeometryElement | null;
-        const shouldElementBeDeleted = pathElement?.isPointInStroke(pointOnSvg);
+        const shouldElementBeDeleted =
+          pathElement?.isPointInStroke(pointOnSvg) || pathElement?.isPointInFill(pointOnSvg);
         return {
           ...path,
           deleting: shouldElementBeDeleted,

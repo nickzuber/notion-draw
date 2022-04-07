@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useState } from "react";
+import { FC, Fragment, useContext, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Action, Meta, Status, Theme } from "../types/app";
 import { ReactComponent as TrashSvg } from "../icons/trash.svg";
@@ -118,7 +118,12 @@ export const Controls: FC<ControlsProps> = ({
         )}
       </RightContainer>
 
-      <LeftContainer hide={hidden}>
+      <LeftContainer
+        hide={hidden}
+        style={{
+          width: meta.locked ? 46 : 80,
+        }}
+      >
         <SidePanel hide={isLocked}>
           <DrawingOption
             selected={status === Status.FREEHAND}
@@ -143,21 +148,23 @@ export const Controls: FC<ControlsProps> = ({
               onClick={() => setMeta({ locked: false })}
             />
           ) : (
-            <UnlockOption
-              tooltip="Lock this board and disable editing"
-              tooltipOffsetX={82}
-              tooltipOffsetY={-65}
-              tooltipSpeed={200}
-              onClick={() => setMeta({ locked: true })}
-            />
+            <Fragment>
+              <UnlockOption
+                tooltip="Lock this board and disable editing"
+                tooltipOffsetX={82}
+                tooltipOffsetY={-65}
+                tooltipSpeed={200}
+                onClick={() => setMeta({ locked: true })}
+              />
+              <DeleteOption
+                tooltip="Clear everything from the board"
+                tooltipOffsetX={40}
+                tooltipOffsetY={-65}
+                tooltipSpeed={200}
+                onClick={() => onDeleteAllShapes()}
+              />
+            </Fragment>
           )}
-          <DeleteOption
-            tooltip="Clear everything from the board"
-            tooltipOffsetX={40}
-            tooltipOffsetY={-65}
-            tooltipSpeed={200}
-            onClick={() => onDeleteAllShapes()}
-          />
         </SidePanel>
       </LeftContainer>
     </Container>
@@ -178,7 +185,7 @@ const TogglablePanel: FC = ({ children }) => {
 const Container = styled.div``;
 
 const HidableContainer = styled.div<{ hide?: boolean }>`
-  transition: all 250ms ease;
+  transition: opacity 250ms ease, transform 250ms ease;
   pointer-events: ${(props) => (props.hide ? "none" : "all")};
   opacity: ${(props) => (props.hide ? 0 : 1)};
   transform: scale(${(props) => (props.hide ? 0.975 : 1)});

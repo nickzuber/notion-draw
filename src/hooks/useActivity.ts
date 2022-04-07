@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 
+const DelayMS = 1000;
+
 export const useActivity = (): boolean => {
   const [active, setActive] = useState(false);
 
   useEffect(() => {
+    let ts: ReturnType<typeof setTimeout> | null = null;
+
     function handleMouseEnter() {
+      if (ts) clearTimeout(ts);
       setActive(true);
     }
 
     function handleMouseLeave() {
-      setActive(false);
+      ts = setTimeout(() => setActive(false), DelayMS);
     }
 
     document.addEventListener("mouseenter", handleMouseEnter, {

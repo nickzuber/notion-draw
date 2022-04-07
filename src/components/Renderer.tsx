@@ -65,7 +65,6 @@ export const Renderer: FC<RendererProps> = ({
 
   // Panning
   useWheelEffect(svgRef, onPinch, onPan, options.disablePanning || meta.locked);
-  // useMousePanEffect(svgRef, status, onPan, options.disablePanning || meta.locked);
 
   // Controls
   useFreehandEffect(
