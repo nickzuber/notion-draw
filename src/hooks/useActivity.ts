@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const DelayMS = 1000;
 
 export const useActivity = (): boolean => {
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(true);
 
   useEffect(() => {
     let ts: ReturnType<typeof setTimeout> | null = null;
