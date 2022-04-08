@@ -28,7 +28,7 @@ const Container = styled.div`
   height: 100vh;
   width: 100%;
   margin: 0;
-  background: ${Palette.Black};
+  background: #ffffff;
   box-sizing: border-box;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 0;
@@ -44,7 +44,7 @@ const Text = styled.p`
   font-size: 13px;
   font-weight: 500;
   line-height: 17px;
-  color: #ffffff;
+  color: ${Palette.Black};
   margin: 4px auto 8px;
   text-align: center;
 `;
